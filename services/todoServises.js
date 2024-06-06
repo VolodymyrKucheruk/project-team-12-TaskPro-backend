@@ -25,10 +25,3 @@ export const changeColumn = async (todoId, columnId) => {
   return Todo.findByIdAndUpdate(todoId, { column: columnId }, { new: true });
 };
 
-export default {
-  getTodoById,
-  removeTodo,
-  addTodo,
-  updateTodo,
-  changeColumn,
-};

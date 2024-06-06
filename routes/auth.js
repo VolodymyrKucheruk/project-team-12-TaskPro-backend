@@ -5,7 +5,7 @@ import {
   signInSchema,
   refreshSchema,
   updateUserInfoSchema,
-} from "../models/usersSchema.js";
+} from "../schemas/userSchema.js";
 import { authenticate } from "../helpers/authenticate.js";
 import { upload } from "../helpers/upload.js";
 import {

@@ -20,9 +20,4 @@ export const updateColumn = async (columnId, body) => {
   return Column.findByIdAndUpdate(columnId, { ...body }, { new: true });
 };
 
-export default {
-  getColumnById,
-  removeColumn,
-  addColumn,
-  updateColumn,
-};
+

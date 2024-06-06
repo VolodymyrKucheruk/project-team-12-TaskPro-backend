@@ -1,4 +1,4 @@
-import { Board } from "../schemas/boardsSchemas";
+// import { Board } from "../schemas/boardsSchemas";
 
 // Додає нову дошку до бази даних.
 export const addBoard = async (body) => {
@@ -20,9 +20,3 @@ export const updateCurrentBoard = async (boardId, body) => {
   return Board.findByIdAndUpdate(boardId, { ...body }, { new: true });
 };
 
-export default {
-  listBoards,
-  addBoard,
-  updateCurrentBoard,
-  getBoardById,
-};

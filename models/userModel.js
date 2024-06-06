@@ -1,6 +1,9 @@
 import { model, Schema } from "mongoose";
 import { emailRegexp } from "./regex.js";
 
+
+const themeVariants = ["violet", "light", "dark"];
+
 const userSchema = new Schema(
   {
     password: {
@@ -20,6 +23,11 @@ const userSchema = new Schema(
     avatarURL: {
       type: String,
       required: true,
+    },
+    theme: {
+      type: String,
+      enum: themeVariants,
+      default: "light",
     },
     accessToken: {
       type: String,

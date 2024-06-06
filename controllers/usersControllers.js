@@ -6,7 +6,6 @@ import bcrypt from "bcrypt";
 import gravatar from "gravatar";
 import { v2 as cloudinary } from "cloudinary";
 
-
 dotenv.config();
 
 const { ACCESS_SECRET_KEY, REFRESH_SECRET_KEY } = process.env;
@@ -14,7 +13,6 @@ const { ACCESS_SECRET_KEY, REFRESH_SECRET_KEY } = process.env;
 export const signUp = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-
     const atIndex = email.indexOf("@");
     const name = email.substring(0, atIndex);
     const user = await User.findOne({ email });
@@ -50,6 +48,7 @@ export const signUp = async (req, res, next) => {
 
     res.status(201).json({
       email: newUser.email,
+      name: newUser.name,
       avatarURL: cloudinaryAvatarURL,
       accessToken,
       refreshToken,
@@ -71,7 +70,6 @@ export const signIn = async (req, res, next) => {
 
     const payload = {
       id: user._id,
-      dailyWaterNorma: user.dailyWaterNorma,
     };
     const accessToken = jwt.sign(payload, ACCESS_SECRET_KEY, {
       expiresIn: "7d",
@@ -86,8 +84,7 @@ export const signIn = async (req, res, next) => {
       name: user.name,
       email: user.email,
       avatar: user.avatarURL,
-      water: user.dailyWaterNorma,
-      gender: user.gender,
+      theme: user.theme,
       accessToken,
       refreshToken,
     });
@@ -95,6 +92,24 @@ export const signIn = async (req, res, next) => {
     next(error);
   }
 };
+
+export const signOut = async (req, res, next) => {
+  try {
+    const { _id } = req.user;
+    const user = await User.findOneAndUpdate(_id, {
+      accessToken: "",
+      refreshToken: "",
+    });
+    if (!user) throw HttpError(401);
+
+    res.status(204).json({
+      message: "No Content",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const refresh = async (req, res, next) => {
   try {
     const { refreshToken } = req.body;
@@ -121,29 +136,27 @@ export const refresh = async (req, res, next) => {
   }
 };
 
-export const signOut = async (req, res, next) => {
-  try {
-    const { _id } = req.user;
-    const user = await User.findOneAndUpdate(_id, {
-      accessToken: "",
-      refreshToken: "",
-    });
-    if (!user) throw HttpError(401);
-
-    throw HttpError(204, "signOUt success");
-  } catch (error) {
-    next(error);
-  }
-};
-
 export const current = async (req, res, next) => {
   try {
-    const { email } = req.user;
-    const user = await User.findOne({ email }).select(
-      "_id name dailyWaterNorma avatarURL gender weight activeSportTime email"
-    );
+    const { _id: userId } = req.user;
+    const user = await User.findById(userId);
 
-    res.json(user);
+    const dashboards = await serv.listBoards({ owner: userId });
+
+    res.status(200).json({
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        avatarURL: user.avatarURL,
+        theme: user.theme,
+      },
+      boards: dashboards.map((dashboard) => ({
+        id: dashboard._id,
+        title: dashboard.title,
+        background: dashboard.backgroundURL,
+      })),
+    });
   } catch (error) {
     next(error);
   }
