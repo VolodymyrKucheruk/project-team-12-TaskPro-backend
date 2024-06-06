@@ -1,6 +1,5 @@
 import { model, Schema } from "mongoose";
-import { emailRegexp } from "./regex.js"
-
+import { emailRegexp } from "./regex.js";
 
 const userSchema = new Schema(
   {
@@ -18,25 +17,6 @@ const userSchema = new Schema(
       type: String,
       required: false,
     },
-    dailyWaterNorma: {
-      type: Number,
-      default: 1500,
-    },
-    weight: {
-      type: Number,
-      required: false,
-      default: "",
-    },
-    gender: {
-      type: String,
-      enum: ["man", "woman"],
-      required: false,
-      default: null,
-    },
-    activeSportTime: {
-      type: Number,
-      required: false,
-    },
     avatarURL: {
       type: String,
       required: true,
@@ -46,14 +26,6 @@ const userSchema = new Schema(
     },
     refreshToken: {
       type: String,
-    },
-    verify: {
-      type: Boolean,
-      default: false,
-    },
-    verificationToken: {
-      type: String,
-      required: [true, "Verify token is required"],
     },
   },
 

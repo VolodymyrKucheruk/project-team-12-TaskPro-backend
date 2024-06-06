@@ -3,7 +3,6 @@ import validateBody from "../helpers/validateBody.js";
 import {
   signUpSchema,
   signInSchema,
-  emailSchema,
   refreshSchema,
   updateUserInfoSchema,
 } from "../models/usersSchema.js";
@@ -14,11 +13,9 @@ import {
   signIn,
   signOut,
   current,
-  updateAvatar,
-  verifyEmail,
-  resendVerifyEmail,
-  refresh,
   updateUserInfo,
+  updateAvatar,
+  refresh,
   googleAuth,
 } from "../controllers/usersControllers.js";
 import passport from "../helpers/google-authenticate.js";
@@ -26,12 +23,10 @@ import passport from "../helpers/google-authenticate.js";
 export const userRouter = express.Router();
 
 
-userRouter.get("/current", authenticate, current);
 userRouter.post("/signUp", validateBody(signUpSchema), signUp);
-userRouter.get("/verify/:verificationToken", verifyEmail);
-userRouter.post("/verify", validateBody(emailSchema), resendVerifyEmail);
 userRouter.post("/signIn", validateBody(signInSchema), signIn);
 userRouter.post("/signOut", authenticate, signOut);
+userRouter.get("/current", authenticate, current);
 userRouter.patch(
   "/avatars",
   authenticate,

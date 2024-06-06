@@ -5,18 +5,11 @@ import HttpError from "../helpers/HttpError.js";
 import bcrypt from "bcrypt";
 import gravatar from "gravatar";
 import { v2 as cloudinary } from "cloudinary";
-import { sendEmail } from "../helpers/sendEmail.js";
-import { v4 } from "uuid";
+
 
 dotenv.config();
 
-const {
-  ACCESS_SECRET_KEY,
-  REFRESH_SECRET_KEY,
-  MAILTRAP_USER,
-  MAILTRAP_HOST,
-  FRONTEND_URL,
-} = process.env;
+const { ACCESS_SECRET_KEY, REFRESH_SECRET_KEY } = process.env;
 
 export const signUp = async (req, res, next) => {
   try {
@@ -35,20 +28,15 @@ export const signUp = async (req, res, next) => {
     const cloudinaryResponse = await cloudinary.uploader.upload(avatarURL);
     cloudinaryAvatarURL = cloudinaryResponse.secure_url;
 
-    const verificationToken = v4();
-    const dailyWaterNorma = 1500;
     const newUser = await User.create({
       name: name,
       email: email,
       password: hashPassword,
       avatarURL: cloudinaryAvatarURL,
-      dailyWaterNorma,
-      verificationToken,
     });
 
     const payload = {
       id: newUser._id,
-      dailyWaterNorma: newUser.dailyWaterNorma,
     };
 
     const accessToken = jwt.sign(payload, ACCESS_SECRET_KEY, {
@@ -60,17 +48,8 @@ export const signUp = async (req, res, next) => {
 
     await User.findByIdAndUpdate(newUser._id, { accessToken, refreshToken });
 
-    const verifyEmail = {
-      from: MAILTRAP_USER,
-      to: email,
-      subject: "Verify email",
-      html: `<a target="_blank" href="${MAILTRAP_HOST}/users/verify/${verificationToken}">Click verify email</a>`,
-    };
-    await sendEmail(verifyEmail);
-
     res.status(201).json({
       email: newUser.email,
-      water: dailyWaterNorma,
       avatarURL: cloudinaryAvatarURL,
       accessToken,
       refreshToken,
@@ -190,8 +169,7 @@ export const updateAvatar = async (req, res, next) => {
 
 export const updateUserInfo = async (req, res, next) => {
   try {
-    const { name, email, gender, weight, activeSportTime, dailyWaterNorma } =
-      req.body;
+    const {} = req.body;
     let avatarURL = req.user.avatarURL;
     if (req.file) {
       const result = await cloudinary.uploader.upload(req.file.path);
@@ -200,9 +178,7 @@ export const updateUserInfo = async (req, res, next) => {
     const updatedFields = {
       name: name || req.user.name,
       email: email || req.user.email,
-      weight: weight || req.user.weight,
-      activeSportTime: activeSportTime || req.user.activeSportTime,
-      dailyWaterNorma: dailyWaterNorma || req.user.dailyWaterNorma,
+
       avatarURL,
     };
     if (gender !== undefined && gender !== "") {
@@ -223,53 +199,6 @@ export const updateUserInfo = async (req, res, next) => {
     res.json(updatedUser);
   } catch (error) {
     next(new HttpError(500, "Internal Server Error"));
-  }
-};
-
-export const verifyEmail = async (req, res, next) => {
-  try {
-    const { verificationToken } = req.params;
-    const user = await User.findOne({ verificationToken });
-    if (!user) {
-      throw HttpError(404, "Invalid or expired verification token");
-    }
-    if (user.verify) {
-      throw HttpError(409, "Email already verified");
-    }
-    await User.findByIdAndUpdate(user._id, {
-      verify: true,
-      verificationToken: null,
-    });
-
-    res.status(200).json({
-      message: "Email verification successful",
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
-export const resendVerifyEmail = async (req, res, next) => {
-  try {
-    const { email } = req.body;
-    const user = await User.findOne({ email });
-    if (!user) {
-      throw HttpError(400, "missing required field email");
-    }
-    if (user.verify) {
-      throw HttpError(400, "Verification has already been passed");
-    }
-    const verifyEmail = {
-      to: email,
-      subject: "Verify email",
-      html: `<a target="_blank" href="${MAILTRAP_HOST}/users/verify/${user.verificationToken}">Click verify email</a>`,
-    };
-    await sendEmail(verifyEmail);
-    res.json({
-      message: "Verify email send success",
-    });
-  } catch (error) {
-    next(error);
   }
 };
 

@@ -1,11 +1,17 @@
 import express from "express";
 import morgan from "morgan";
 import cors from "cors";
-import waterRouter from "./routes/waterRouter.js";
 import dotenv from "dotenv";
-import { userRouter } from "./routes/auth.js";
-import swaggerUi from "swagger-ui-express";
+
 import fs from "fs";
+
+import { userRouter } from "./routes/auth.js";
+import { todosRouter } from "./routes/todoRoutes.js";
+import { dashboardRoutes } from "./routes/dashboardRoutes.js";
+import { columnsRouter } from "./routes/columnRoutes.js"
+
+import swaggerUi from "swagger-ui-express";
+
 
 const swaggerDocument = JSON.parse(fs.readFileSync("./swagger.json", "utf-8"));
 
@@ -18,8 +24,13 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
 app.use("/api/users", userRouter);
+app.use("/api/todos", todosRouter);
+app.use("/api/boards", dashboardRoutes);
+app.use("/api/columns", columnsRouter);
+
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-app.use("/api/waters", waterRouter);
+
+
 
 app.use((_, res) => {
   res.status(404).json({ message: "Route not found" });

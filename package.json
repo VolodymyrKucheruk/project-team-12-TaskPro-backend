@@ -1,5 +1,5 @@
 {
-  "name": "project-group-8-backend",
+  "name": "project-team-12-task-pro-backend",
   "type": "module",
   "scripts": {
     "start": "node ./server.js",
