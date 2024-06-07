@@ -1,3 +1,7 @@
+import Todo from "../models/todoModel.js";
+
+import { createTodoSchema } from "../schemas/todoSchema.js";
+
 // Логіка пов'язана з контроллерами задач (Todo):
 
 // createTodo: Створює нову задачу для колонки та повертає її у відповіді.

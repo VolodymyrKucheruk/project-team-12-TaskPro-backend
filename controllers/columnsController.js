@@ -1,3 +1,7 @@
+import Column from "../models/columnModel.js";
+
+import { createColumnSchema } from "../schemas/columnSchema.js";
+
 // Логіка пов'язана з контроллерами колонок:
 
 // createColumn: Створює нову колонку для дошки та повертає її у відповіді.
