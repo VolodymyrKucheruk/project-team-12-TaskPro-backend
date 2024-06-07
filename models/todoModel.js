@@ -9,15 +9,15 @@ const todoSchema = new mongoose.Schema(
     },
     description: {
         type: String,
-        // required: [true, "Description"],
+        // required: [true, "Description"],    
     },
     priority: {
         type: String,
         enum: [
-        "blue",
-        "red",
-        "green",
-        "black",         
+        "Without priority",
+        "Low",
+        "Medium",
+        "High",         
       ],                     
     },
     deadline: {
@@ -26,7 +26,7 @@ const todoSchema = new mongoose.Schema(
     },
     // ownerColumn: {
     //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: "user",
+    //   ref: "column",
     //   // required: [true],
     // },
   },

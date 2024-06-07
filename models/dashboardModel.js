@@ -26,7 +26,7 @@ const dashboardSchema = new mongoose.Schema(
     //     "black",         
     //   ],                     
     },    
-    // ownerColumn: {
+    // ownerUser: {
     //   type: mongoose.Schema.Types.ObjectId,
     //   ref: "user",
     //   // required: [true],
