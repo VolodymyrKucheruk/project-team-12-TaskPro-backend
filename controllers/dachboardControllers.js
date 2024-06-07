@@ -1,3 +1,7 @@
+import Dashboard from "../models/dashboardModel.js";
+
+import { createContactSchema } from "../schemas/dashboardSchema.js";
+
 // Логіка пов'язана з контроллерами дошки:
 
 // createBoard: Створює нову дошку для користувача та повертає її у відповіді.

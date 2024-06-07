@@ -8,27 +8,23 @@ const todoSchema = new mongoose.Schema(
       required: [true, "Title"],
     },
     description: {
-        type: String,
-        // required: [true, "Description"],    
+      type: String,
+      // required: [true, "Description"],
     },
     priority: {
-        type: String,
-        enum: [
-        "Without priority",
-        "Low",
-        "Medium",
-        "High",         
-      ],                     
+      type: String,
+      enum: ["Without priority", "Low", "Medium", "High"],
     },
     deadline: {
       type: Date,
       default: Date.now,
     },
-    // ownerColumn: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: "column",
-    //   // required: [true],
-    // },
+    // містить ідентифікатор column в якій створюється ця картка
+    ownerColumn: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "column",
+      // required: [true],
+    },
   },
   {
     timestamps: true,

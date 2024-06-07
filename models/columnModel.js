@@ -6,17 +6,17 @@ const columnSchema = new mongoose.Schema(
     title: {
       type: String,
       required: [true, "Title"],
-      enum: [
-        "To Do",
-        "In progress",
-        "Done",                  
-      ],       
+      // enum: [
+      //   "To Do",
+      //   "In progress",
+      //   "Done",                  
+      // ],       
     },     
-    // ownerDashboard: { 
-    //   type: mongoose.Schema.Types.ObjectId,     
-    //   ref: "dashboard",
-    //   // required: [true],
-    // },
+    ownerDashboard: { 
+      type: mongoose.Schema.Types.ObjectId,     
+      ref: "dashboard",
+      // required: [true],
+    },
   },
   {
     timestamps: true,

@@ -26,11 +26,11 @@ const dashboardSchema = new mongoose.Schema(
     //     "black",         
     //   ],                     
     },    
-    // ownerUser: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: "user",
-    //   // required: [true],
-    // },
+    ownerUser: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
+      // required: [true],
+    },
   },
   {
     timestamps: true,
