@@ -1,5 +1,5 @@
 import express from "express";
-import { createTodo } from "../controllers/todoController.js";
+import { createTodo, deleteTodo } from "../controllers/todoController.js";
 // import { schemas } from "../schemas";
 // import {validates} from "../middlewares";
 
@@ -34,7 +34,7 @@ todoRouter.post("/:columnId", createTodo);
 // 3. Аутентифікує користувача.
 // 4. Викликає контроллер для видалення задачі за ідентифікатором.
 // todosRouter.delete("/:todoId", validates, authenticate, controllerName);
-
+todoRouter.delete("/:todoId", deleteTodo);
 
 // Оновлює задачу за ідентифікатором
 // 1. Перевіряє валідність ідентифікатора задачі.

@@ -57,8 +57,23 @@ export const getById = async (req, res) => {
 // 6. Видаляє всі задачі, пов'язані з колонками.
 // 7. Відповідає з видаленими дошкою, колонками та задачами, або викликає помилку 404, якщо об'єкти не знайдено.
 
-export const deleteBoard = async (req, res) => {
+export const deleteBoard = async (req, res, next) => {
   // ...
+  // отримуємо ідентифікатор board з id
+  const { boardId } = req.params;
+  console.log(req.params);
+  try {
+    // якщо треба видалити не за id - метод findOneAndDelete({name: "Iv"} ) та зазначити по якому полю
+    const result = await Board.findByIdAndDelete(boardId);
+    // перевірка - обробка помилки - якщо картку не знайдено
+    if (result === null) {
+      return res.status(404).json({ message: "Not found" });
+    }
+
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
 };
 
 // updateCurrentBoard: Оновлює поточну дошку за ідентифікатором та повертає оновлену дошку у відповіді.

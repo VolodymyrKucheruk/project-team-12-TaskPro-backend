@@ -44,8 +44,23 @@ export const getById = async (req, res) => {
 // 5. Видаляє всі задачі, пов'язані з колонкою.
 // 6. Відповідає з видаленою колонкою та задачами.
 
-export const deleteColumn = async (req, res) => {
+export const deleteColumn = async (req, res, next) => {
   // ...
+  // отримуємо ідентифікатор column з id
+  const { columnId } = req.params;
+  console.log(req.params);
+  try {
+    // якщо треба видалити не за id - метод findOneAndDelete({name: "Iv"} ) та зазначити по якому полю
+    const result = await Column.findByIdAndDelete(columnId);
+    // перевірка - обробка помилки - якщо картку не знайдено
+    if (result === null) {
+      return res.status(404).json({ message: "Not found" });
+    }
+
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
 };
 
 // updateColumn: Оновлює поточну колонку за ідентифікатором та повертає оновлену колонку у відповіді.

@@ -1,5 +1,8 @@
 import express from "express";
-import {createColumn} from "../controllers/columnsController.js";
+import {
+  createColumn,
+  deleteColumn,
+} from "../controllers/columnsController.js";
 //import { schemas } from "../schemas";
 //import {validates} from "../middlewares";
 
@@ -32,6 +35,7 @@ columnRouter.post("/:boardId", createColumn);
 // 3. Аутентифікує користувача.
 // 4. Викликає контроллер для видалення колонки за ідентифікатором.
 // columnsRouter.delete("/:columnId", validates, authenticate, controllerName);
+columnRouter.delete("/:columnId", deleteColumn);
 
 // Оновлює колонку за ідентифікатором
 // 1. Перевіряє валідність ідентифікатора колонки.
