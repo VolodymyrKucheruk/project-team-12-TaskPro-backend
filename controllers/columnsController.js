@@ -9,8 +9,21 @@ import { createColumnSchema } from "../schemas/columnSchema.js";
 // 2. Викликає сервіс для додавання нової колонки з даними з тіла запиту та ідентифікатором дошки.
 // 3. Відповідає з статусом 201 та новоствореною колонкою.
 
-export const createColumn = async (req, res) => {
-  // ...
+export const createColumn = async (req, res, next) => { 
+  
+  const column = {
+    title: req.body.title,
+    // ідентифікатор дошки в якій створюєтся ця колонка,
+    // при створенні колонки беремо id дошки ????? з jwt- токена
+    // ownerBoard: req.board.id,
+  };
+
+  try {
+    const result = await Column.create(column);
+    res.status(201).json(result);
+  } catch (error) {
+    next(error);
+  }   
 };
 
 // getById: Отримує колонку за ідентифікатором, а також всі задачі, пов'язані з цією колонкою, та повертає їх у відповіді.

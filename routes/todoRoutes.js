@@ -1,9 +1,9 @@
-// import express from "express";
-// import {name of controllers} from "../controllers";
+import express from "express";
+import { createTodo } from "../controllers/todoController.js";
 // import { schemas } from "../schemas";
 // import {validates} from "../middlewares";
 
-// export const todosRouter = express.Router();
+export const todoRouter = express.Router();
 
 /**
   |============================
@@ -16,7 +16,8 @@
 // 2. Валідовує тіло запиту за схемою створення задачі.
 // 3. Аутентифікує користувача.
 // 4. Викликає контроллер для створення задачі.
-// todosRouter.post("/:columnId", validates, authenticate, controllerName);
+// todoRouter.post("/:columnId", validates, authenticate, controllerName);
+todoRouter.post("/:columnId", createTodo);
 
 
 // Отримує задачу за ідентифікатором
@@ -55,4 +56,4 @@
 //   controllerName
 // );
 
-
+export default todoRouter;

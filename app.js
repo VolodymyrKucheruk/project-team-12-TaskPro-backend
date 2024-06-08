@@ -6,9 +6,9 @@ import dotenv from "dotenv";
 import fs from "fs";
 
 import { userRouter } from "./routes/auth.js";
-// import { todosRouter } from "./routes/todoRoutes.js";
-// import { dashboardRoutes } from "./routes/dashboardRoutes.js";
-// import { columnsRouter } from "./routes/columnRoutes.js"
+import { todoRouter } from "./routes/todoRoutes.js";
+import { boardRouter } from "./routes/dashboardRoutes.js";
+import { columnRouter } from "./routes/columnRoutes.js";
 
 import swaggerUi from "swagger-ui-express";
 
@@ -24,9 +24,9 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
 app.use("/api/users", userRouter);
-// app.use("/api/todos", todosRouter);
-// app.use("/api/boards", dashboardRoutes);
-// app.use("/api/columns", columnsRouter);
+app.use("/api/todos", todoRouter);
+app.use("/api/boards", boardRouter);
+app.use("/api/columns", columnRouter);   
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 

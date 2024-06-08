@@ -9,9 +9,25 @@ import { createTodoSchema } from "../schemas/todoSchema.js";
 // 2. Викликає сервіс для додавання нової задачі з даними з тіла запиту та ідентифікатором колонки.
 // 3. Відповідає з статусом 201 та новоствореною задачею.
 
-export const createTodo = async (req, res) => {
-
+export const createTodo = async (req, res, next) => {  
   // ...
+
+  const todo = {
+    title: req.body.title,
+    description: req.body.description,
+    priority: req.body.priority,
+    deadline: req.body.deadline,
+    // ідентифікатор юзера який створює цей контакт,
+    // при створенні контакту ми беремо id користувача з jwt- токена
+    // ownerColumn: req.column.id,
+  };
+
+  try {
+    const result = await Todo.create(todo);
+    res.status(201).json(result);
+  } catch (error) {
+    next(error);
+  }   
 };
 
 // getById: Отримує задачу за ідентифікатором та повертає її у відповіді.
