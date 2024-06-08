@@ -1,5 +1,11 @@
 import express from "express";
-import { createTodo, deleteTodo } from "../controllers/todoController.js";
+import {
+  createTodo,
+  deleteTodo,
+  getAllTodos,
+  getOneTodo,
+  updateTodo,
+} from "../controllers/todoController.js";
 // import { schemas } from "../schemas";
 // import {validates} from "../middlewares";
 
@@ -20,13 +26,19 @@ export const todoRouter = express.Router();
 todoRouter.post("/:columnId", createTodo);
 
 
+// Отримує всі колонки дошки поточного користувача
+// 1. Аутентифікує користувача.
+// 2. Викликає контроллер для отримання всіх колонки дошк.
+// dashboardRoutes.get("/", authenticate, controllerName);
+todoRouter.get("/", getAllTodos);
+
 // Отримує задачу за ідентифікатором
 // 1. Перевіряє валідність ідентифікатора задачі.
 // 2. Перевіряє, що запит не містить ідентифікатор в тілі.
 // 3. Аутентифікує користувача.
 // 4. Викликає контроллер для отримання задачі за ідентифікатором.
-// todosRouter.get("/:todoId", validates, authenticate, controllerName);
-
+// todosRouter.get("/:todoId", validates, authenticate, controllerName);  getOneTodo
+todoRouter.get("/:todoId", getOneTodo);
 
 // Видаляє задачу за ідентифікатором
 // 1. Перевіряє валідність ідентифікатора задачі.
@@ -42,8 +54,8 @@ todoRouter.delete("/:todoId", deleteTodo);
 // 3. Валідовує тіло запиту за схемою оновлення задачі.
 // 4. Аутентифікує користувача.
 // 5. Викликає контроллер для оновлення задачі за ідентифікатором.
-// todosRouter.patch("/:todoId", validates, authenticate, controllerName);
-
+// todosRouter.patch("/:todoId", validates, authenticate, controllerName); updateTodo
+todoRouter.patch("/:todoId", updateTodo);
 
 // Змінює колонку для задачі
 // 1. Перевіряє валідність ідентифікаторів колонки та задачі.

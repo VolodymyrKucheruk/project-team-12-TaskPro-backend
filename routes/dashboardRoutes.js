@@ -2,6 +2,9 @@ import express from "express";
 import {
   createBoard,
   deleteBoard,
+  getAllBoards,
+  getOneBoard,
+  updateCurrentBoard,
 } from "../controllers/dachboardControllers.js";
 //import { schemas } from "../schemas";
 //import {validates} from "../middlewares";
@@ -25,6 +28,7 @@ boardRouter.post("/", createBoard);
 // 1. Аутентифікує користувача.
 // 2. Викликає контроллер для отримання всіх дошок.
 // dashboardRoutes.get("/", authenticate, controllerName);
+boardRouter.get("/", getAllBoards);
 
 // Отримує дошку за ідентифікатором
 // 1. Перевіряє валідність ідентифікатора дошки.
@@ -33,6 +37,7 @@ boardRouter.post("/", createBoard);
 // 4. Перевіряє, що користувач є власником дошки.
 // 5. Викликає контроллер для отримання дошки за ідентифікатором.
 // dashboardRoutes.get("/:boardId", validates, authenticate, controllerName);
+boardRouter.get("/:boardId", getOneBoard);
 
 // Видаляє дошку за ідентифікатором
 // 1. Перевіряє валідність ідентифікатора дошки.
@@ -51,5 +56,6 @@ boardRouter.delete("/:boardId", deleteBoard);
 // 5. Перевіряє, що користувач є власником дошки.
 // 6. Викликає контроллер для оновлення дошки за ідентифікатором.
 // dashboardRoutes.patch("/:boardId", validates, authenticate, controllerName);
+boardRouter.patch("/:boardId", updateCurrentBoard);
 
 export default boardRouter;
