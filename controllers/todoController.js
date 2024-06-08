@@ -14,16 +14,16 @@ export const createTodo = async (req, res, next) => {
 
   const todo = {
     title: req.body.title,
-    description: req.body.icons,
-    priority: req.body.background,
-    deadline: req.body.title,   
+    description: req.body.description,
+    priority: req.body.priority,
+    deadline: req.body.deadline,
     // ідентифікатор юзера який створює цей контакт,
     // при створенні контакту ми беремо id користувача з jwt- токена
-    // owner: req.user.id,
+    // ownerColumn: req.column.id,
   };
 
   try {
-    const result = await Board.create(board);
+    const result = await Todo.create(todo);
     res.status(201).json(result);
   } catch (error) {
     next(error);

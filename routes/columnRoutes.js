@@ -3,7 +3,7 @@ import {createColumn} from "../controllers/columnsController.js";
 //import { schemas } from "../schemas";
 //import {validates} from "../middlewares";
 
-export const columnRoutes = express.Router();
+export const columnRouter = express.Router();
 
 /**
   |============================
@@ -17,7 +17,7 @@ export const columnRoutes = express.Router();
 // 3. Перевіряє валідність ідентифікатора дошки.
 // 4. Викликає контроллер для створення колонки.
 // columnsRouter.post("/:boardId", validates, authenticate, controllerName);
-columnRoutes.post("/:boardId", createColumn);
+columnRouter.post("/:boardId", createColumn);
 
 // Отримує колонку за ідентифікатором
 // 1. Перевіряє валідність ідентифікатора колонки.
@@ -42,4 +42,4 @@ columnRoutes.post("/:boardId", createColumn);
 // columnsRouter.patch("/:columnId", validates, authenticate, controllerName);
 
 
-export default columnRoutes;
+export default columnRouter;

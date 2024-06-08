@@ -15,10 +15,10 @@ const todoSchema = new mongoose.Schema(
       type: String,
       enum: ["Without priority", "Low", "Medium", "High"],
     },
-    deadline: {
-      type: Date,
-      default: Date.now,
-    },
+    // deadline: {
+    //   type: Date,
+    //   default: Date.now,
+    // },
     // містить ідентифікатор column в якій створюється ця картка
     ownerColumn: {
       type: mongoose.Schema.Types.ObjectId,

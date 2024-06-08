@@ -3,7 +3,7 @@ import { createBoard } from "../controllers/dachboardControllers.js";
 //import { schemas } from "../schemas";
 //import {validates} from "../middlewares";
 
-export const boardRoutes = express.Router();
+export const boardRouter = express.Router();
 
 /**
   |============================
@@ -16,7 +16,7 @@ export const boardRoutes = express.Router();
 // 2. Аутентифікує користувача.
 // 3. Викликає контроллер для створення дошки.
 // dashboardRoutes.post("/", validates, authenticate, createDashboard);
-boardRoutes.post("/", createBoard);
+boardRouter.post("/", createBoard);
 
 // Отримує всі дошки поточного користувача
 // 1. Аутентифікує користувача.
@@ -48,4 +48,4 @@ boardRoutes.post("/", createBoard);
 // 6. Викликає контроллер для оновлення дошки за ідентифікатором.
 // dashboardRoutes.patch("/:boardId", validates, authenticate, controllerName);
 
-export default boardRoutes;
+export default boardRouter;
