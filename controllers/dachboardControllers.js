@@ -1,6 +1,6 @@
-import Dashboard from "../models/dashboardModel.js";
+import Board from "../models/dashboardModel.js";
 
-import { createContactSchema } from "../schemas/dashboardSchema.js";
+import { createBoardSchema } from "../schemas/dashboardSchema.js";
 
 // Логіка пов'язана з контроллерами дошки:
 
@@ -9,8 +9,23 @@ import { createContactSchema } from "../schemas/dashboardSchema.js";
 // 2. Викликає сервіс для додавання нової дошки з даними з тіла запиту та ідентифікатором користувача.
 // 3. Відповідає з статусом 201 та новоствореною дошкою.
 
-export const createBoard = async (req, res) => {
+export const createBoard = async (req, res, next) => {
   // ...
+  const board = {
+    title: req.body.title,
+    icons: req.body.icons,
+    background: req.body.background,
+    // ідентифікатор юзера який створює цей контакт,
+    // при створенні контакту ми беремо id користувача з jwt- токена
+    // owner: req.user.id,
+  };
+
+  try {
+    const result = await Board.create(board); 
+    res.status(201).json(result);     
+  } catch (error) {
+    next(error);
+  }   
 };
 
 // getAllBoards: Отримує всі дошки, створені поточним користувачем, та повертає їх у відповіді.

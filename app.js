@@ -7,8 +7,8 @@ import fs from "fs";
 
 import { userRouter } from "./routes/auth.js";
 // import { todosRouter } from "./routes/todoRoutes.js";
-// import { dashboardRoutes } from "./routes/dashboardRoutes.js";
-// import { columnsRouter } from "./routes/columnRoutes.js"
+import { boardRoutes } from "./routes/dashboardRoutes.js";
+import { columnRoutes } from "./routes/columnRoutes.js";
 
 import swaggerUi from "swagger-ui-express";
 
@@ -25,8 +25,8 @@ app.use(express.json());
 app.use(express.static("public"));
 app.use("/api/users", userRouter);
 // app.use("/api/todos", todosRouter);
-// app.use("/api/boards", dashboardRoutes);
-// app.use("/api/columns", columnsRouter);
+app.use("/api/boards", boardRoutes);
+app.use("/api/columns", columnRoutes);   
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 

@@ -8,24 +8,24 @@ const dashboardSchema = new mongoose.Schema(
       required: [true, "Title"],
     },
     icons: {
-        type: String,
-        // required: [true, "Description"],
-    //     enum: [
-    //     "blue",
-    //     "red",
-    //     "green",
-    //     "black",         
-    //   ],       
+      type: String,
+      // required: [true, "Description"],
+      //     enum: [
+      //     "blue",
+      //     "red",
+      //     "green",
+      //     "black",
+      //   ],
     },
     background: {
-        type: String,
-    //     enum: [
-    //     "blue",
-    //     "red",
-    //     "green",
-    //     "black",         
-    //   ],                     
-    },    
+      type: String,
+      //     enum: [
+      //     "blue",
+      //     "red",
+      //     "green",
+      //     "black",
+      //   ],
+    },
     ownerUser: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
@@ -34,6 +34,7 @@ const dashboardSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
+    versionKey: false,
   }
 );
 

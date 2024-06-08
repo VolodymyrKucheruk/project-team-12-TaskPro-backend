@@ -16,7 +16,7 @@
 // 2. Валідовує тіло запиту за схемою створення задачі.
 // 3. Аутентифікує користувача.
 // 4. Викликає контроллер для створення задачі.
-// todosRouter.post("/:columnId", validates, authenticate, controllerName);
+todosRouter.post("/:columnId", validates, authenticate, controllerName);
 
 
 // Отримує задачу за ідентифікатором

@@ -9,17 +9,18 @@ const columnSchema = new mongoose.Schema(
       // enum: [
       //   "To Do",
       //   "In progress",
-      //   "Done",                  
-      // ],       
-    },     
-    ownerDashboard: { 
-      type: mongoose.Schema.Types.ObjectId,     
-      ref: "dashboard",
+      //   "Done",
+      // ],
+    },
+    ownerBoard: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "board",
       // required: [true],
     },
   },
   {
     timestamps: true,
+    versionKey: false,
   }
 );
 
