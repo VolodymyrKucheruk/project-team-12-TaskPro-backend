@@ -2,6 +2,9 @@ import express from "express";
 import {
   createColumn,
   deleteColumn,
+  getAllColumns,
+  getOneColumn,
+  updateColumn,
 } from "../controllers/columnsController.js";
 //import { schemas } from "../schemas";
 //import {validates} from "../middlewares";
@@ -22,12 +25,19 @@ export const columnRouter = express.Router();
 // columnsRouter.post("/:boardId", validates, authenticate, controllerName);
 columnRouter.post("/:boardId", createColumn);
 
+// Отримує всі колонки дошки поточного користувача
+// 1. Аутентифікує користувача.
+// 2. Викликає контроллер для отримання всіх колонки дошк.
+// dashboardRoutes.get("/", authenticate, controllerName);
+columnRouter.get("/", getAllColumns);
+
 // Отримує колонку за ідентифікатором
 // 1. Перевіряє валідність ідентифікатора колонки.
 // 2. Перевіряє, що запит не містить ідентифікатор в тілі.
 // 3. Аутентифікує користувача.
 // 4. Викликає контроллер для отримання колонки за ідентифікатором.
-// columnsRouter.get("/:columnId", validates, authenticate, controllerName);
+// columnsRouter.get("/:columnId", validates, authenticate, controllerName);    getOneColumn
+columnRouter.get("/:columnId", getOneColumn);    
 
 // Видаляє колонку за ідентифікатором
 // 1. Перевіряє валідність ідентифікатора колонки.
@@ -44,6 +54,6 @@ columnRouter.delete("/:columnId", deleteColumn);
 // 4. Аутентифікує користувача.
 // 5. Викликає контроллер для оновлення колонки за ідентифікатором.
 // columnsRouter.patch("/:columnId", validates, authenticate, controllerName);
-
+columnRouter.patch("/:columnId", updateColumn);
 
 export default columnRouter;

@@ -33,8 +33,16 @@ export const createBoard = async (req, res, next) => {
 // 2. Викликає сервіс для отримання списку всіх дошок користувача.
 // 3. Відповідає з статусом 200 та списком дошок.
 
-export const getAllBoards = async (req, res) => {
+export const getAllBoards = async (req, res, next) => {
   // ...
+  try {
+    // запит всіх Boards в колекції
+    const result = await Board.find();
+
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }   
 };
 
 // getById: Отримує дошку за ідентифікатором, а також всі колонки та задачі, пов'язані з цією дошкою, та повертає їх у відповіді.
@@ -44,8 +52,26 @@ export const getAllBoards = async (req, res) => {
 // 4. Виконує агрегацію для отримання задач, пов'язаних з кожною колонкою.
 // 5. Відповідає з знайденою дошкою та колонками з задачами, або порожнім масивом колонок, якщо їх немає.
 
-export const getById = async (req, res) => {
+export const getOneBoard = async (req, res, next) => {
   // ...
+
+  // отримуємо ідентифікатор сонтакту з id
+  const { boardId } = req.params;
+
+  // потрібно додати Joi валідацію значень полів щодо id на тип ObjectId !!!!!!!!
+
+  try {
+    //  пошук з ідентифікатором   - якшо немає такого id - findById повертає null
+    const result = await Board.findById(boardId);
+    //  обробка помилки - якщо контакт не знайдено
+    if (result === null) {
+      return res.status(404).json({ message: "Not found" });
+    }
+
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
 };
 
 // deleteBoard: Видаляє дошку за ідентифікатором разом з усіма пов'язаними колонками та задачами, та повертає видалені об'єкти у відповіді.
@@ -81,6 +107,37 @@ export const deleteBoard = async (req, res, next) => {
 // 2. Викликає сервіс для оновлення дошки за ідентифікатором та даними з тіла запиту.
 // 3. Відповідає з статусом 200 та оновленою дошкою.
 
-export const updateCurrentBoard = async (req, res) => {
+export const updateCurrentBoard = async (req, res, next) => {
   // ...
+  // отримуємо ідентифікатор сонтакту з id
+  const { boardId } = req.params;
+
+  // об'єкт  board - з полями які зчитуються з боді 
+  const board = {
+    title: req.body.title,
+    icons: req.body.icons,
+    background: req.body.background,
+    // ідентифікатор юзера який створює цей board,
+    // при створенні board беремо id користувача з jwt- токена
+    // owner: req.user.id,
+  };
+
+  try {
+    // щоб findByIdAndUpdate ПОВЕРНУВ актуальну(нову а не стару) версію документа треба додати { new: true} -
+    const result = await Board.findByIdAndUpdate(boardId, board, {
+      new: true,
+    });
+    // перевірка - обробка помилки - якщо board не знайдено
+    if (result === null) {
+      return res.status(404).json({ message: "Not found" });
+    }
+
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+
+
+
+
 };
