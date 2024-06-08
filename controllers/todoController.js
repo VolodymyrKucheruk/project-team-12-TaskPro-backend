@@ -17,8 +17,8 @@ export const createTodo = async (req, res, next) => {
     description: req.body.description,
     priority: req.body.priority,
     deadline: req.body.deadline,
-    // ідентифікатор юзера який створює цей контакт,
-    // при створенні контакту ми беремо id користувача з jwt- токена
+    // ідентифікатор юзера який створює ц. картку,
+    // при створенні картки беремо id користувача з jwt- токена
     // ownerColumn: req.column.id,
   };
 
@@ -44,8 +44,22 @@ export const getById = async (req, res) => {
 // 2. Викликає сервіс для видалення задачі за ідентифікатором.
 // 3. Відповідає з статусом 200 та видаленою задачею.
 
-export const deleteTodo = async (req, res) => {
-  // ...
+export const deleteTodo = async (req, res, next) => {   
+  // отримуємо ідентифікатор картки з id
+  const { todoId } = req.params; 
+  console.log(req.params);
+  try {
+    // якщо треба видалити не за id - метод findOneAndDelete({name: "Iv"} ) та зазначити по якому полю 
+    const result = await Todo.findByIdAndDelete(todoId);
+    // перевірка - обробка помилки - якщо картку не знайдено
+    if (result === null) {
+      return res.status(404).json({ message: "Not found" });
+    }
+
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
 };
 
 // updateTodo: Оновлює поточну задачу за ідентифікатором та повертає оновлену задачу у відповіді.

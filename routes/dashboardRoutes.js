@@ -1,5 +1,8 @@
 import express from "express";
-import { createBoard } from "../controllers/dachboardControllers.js";
+import {
+  createBoard,
+  deleteBoard,
+} from "../controllers/dachboardControllers.js";
 //import { schemas } from "../schemas";
 //import {validates} from "../middlewares";
 
@@ -38,6 +41,7 @@ boardRouter.post("/", createBoard);
 // 4. Перевіряє, що користувач є власником дошки.
 // 5. Викликає контроллер для видалення дошки за ідентифікатором.
 // dashboardRoutes.delete("/:boardId", validates, authenticate, controllerName);
+boardRouter.delete("/:boardId", deleteBoard);
 
 // Оновлює дошку за ідентифікатором
 // 1. Перевіряє валідність ідентифікатора дошки.
