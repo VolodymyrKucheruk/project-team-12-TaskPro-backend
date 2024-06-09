@@ -1,5 +1,4 @@
-import Board from "../models/dashboardModel.js";
-
+import Board from "../models/dashboardModel.js";    
 import { createBoardSchema } from "../schemas/dashboardSchema.js";
 
 // Логіка пов'язана з контроллерами дошки:
@@ -9,15 +8,13 @@ import { createBoardSchema } from "../schemas/dashboardSchema.js";
 // 2. Викликає сервіс для додавання нової дошки з даними з тіла запиту та ідентифікатором користувача.
 // 3. Відповідає з статусом 201 та новоствореною дошкою.
 
-export const createBoard = async (req, res, next) => {
-  // ...
+export const createBoard = async (req, res, next) => { 
   const board = {
     title: req.body.title,
     icons: req.body.icons,
     background: req.body.background,
-    // ідентифікатор юзера який створює цей контакт,
-    // при створенні контакту ми беремо id користувача з jwt- токена
-    owner: req.user.id,
+    // ідентифікатор юзера який створює Board, при цьому беремо id user з jwt- токена
+    ownerUser: req.user.id,
   };
 
   try {
@@ -33,29 +30,25 @@ export const createBoard = async (req, res, next) => {
 // 2. Викликає сервіс для отримання списку всіх дошок користувача.
 // 3. Відповідає з статусом 200 та списком дошок.
 
-export const getAllBoards = async (req, res, next) => {
-  // ...
-  try {      
-    // запит всіх Boards створених одним
-    // визначеним (через req.user.id) юзером - через jwt - токен
-    const result = await Board.find({ owner: req.user.id});
+export const getAllBoards = async (req, res, next) => {   
+  try {
+    // запит всіх Boards створених одним визначеним (через req.user.id) юзером - через jwt - токен
+    const result = await Board.find({ ownerUser: req.user.id });
 
     res.status(200).json(result);
   } catch (error) {
     next(error);
-  }   
+  }
 };
 
-// getById: Отримує дошку за ідентифікатором, а також всі колонки та задачі, пов'язані з цією дошкою, та повертає їх у відповіді.
+// getOneBoard: Отримує дошку за ідентифікатором, а також всі колонки та задачі, пов'язані з цією дошкою, та повертає їх у відповіді.
 // 1. Отримує ідентифікатор дошки з параметрів запиту.
 // 2. Шукає дошку за ідентифікатором у базі даних.
-// 3. Шукає всі колонки, пов'язані з дошкою.
-// 4. Виконує агрегацію для отримання задач, пов'язаних з кожною колонкою.
-// 5. Відповідає з знайденою дошкою та колонками з задачами, або порожнім масивом колонок, якщо їх немає.
+// 3. Шукає всі колонки, пов'язані з дошкою.  !!!!!!!!!!!
+// 4. Виконує агрегацію для отримання задач, пов'язаних з кожною колонкою.  !!!!!!!!!11
+// 5. Відповідає з знайденою дошкою та колонками з задачами, або порожнім масивом колонок, якщо їх немає.  !!!!!!!!1111
 
-export const getOneBoard = async (req, res, next) => {
-  // ...
-
+export const getOneBoard = async (req, res, next) => { 
   // отримуємо ідентифікатор сонтакту з id
   const { boardId } = req.params;
 
@@ -64,7 +57,10 @@ export const getOneBoard = async (req, res, next) => {
   try {
     //  пошук з ідентифікатором   - якшо немає такого id - findById повертає null
     // const result = await Board.findById(boardId);
-    const result = await Board.findById({ _id: boardId, owner: req.user.id });
+    const result = await Board.findById({
+      _id: boardId,
+      ownerUser: req.user.id,
+    });
     //  обробка помилки - якщо контакт не знайдено
     if (result === null) {
       return res.status(404).json({ message: "Not found" });
@@ -79,14 +75,13 @@ export const getOneBoard = async (req, res, next) => {
 // deleteBoard: Видаляє дошку за ідентифікатором разом з усіма пов'язаними колонками та задачами, та повертає видалені об'єкти у відповіді.
 // 1. Отримує ідентифікатор дошки з параметрів запиту.
 // 2. Видаляє дошку за ідентифікатором з бази даних.
-// 3. Шукає всі колонки, пов'язані з дошкою.
-// 4. Видаляє всі колонки, пов'язані з дошкою.
-// 5. Створює масив ідентифікаторів колонок.
-// 6. Видаляє всі задачі, пов'язані з колонками.
-// 7. Відповідає з видаленими дошкою, колонками та задачами, або викликає помилку 404, якщо об'єкти не знайдено.
+// 3. Шукає всі колонки, пов'язані з дошкою.  !!!!!!!!!!
+// 4. Видаляє всі колонки, пов'язані з дошкою.  !!!!!!!!!!!!!!!!!1
+// 5. Створює масив ідентифікаторів колонок.  !!!!!!!!!!!!!!!!!1
+// 6. Видаляє всі задачі, пов'язані з колонками.  !!!!!!!!!!!11
+// 7. Відповідає з видаленими дошкою, колонками та задачами, або викликає помилку 404, якщо об'єкти не знайдено. !!!!!!!!!!
 
-export const deleteBoard = async (req, res, next) => {
-  // ...
+export const deleteBoard = async (req, res, next) => {     
   // отримуємо ідентифікатор board з id
   const { boardId } = req.params;
   console.log(req.params);
@@ -94,7 +89,7 @@ export const deleteBoard = async (req, res, next) => {
     // якщо треба видалити не за id - метод findOneAndDelete({name: "Iv"} ) та зазначити по якому полю
     const result = await Board.findByIdAndDelete({
       _id: boardId,
-      owner: req.user.id,
+      ownerUser: req.user.id,
     });
     // перевірка - обробка помилки - якщо картку не знайдено
     if (result === null) {
@@ -112,29 +107,24 @@ export const deleteBoard = async (req, res, next) => {
 // 2. Викликає сервіс для оновлення дошки за ідентифікатором та даними з тіла запиту.
 // 3. Відповідає з статусом 200 та оновленою дошкою.
 
-export const updateCurrentBoard = async (req, res, next) => {
-  // ...
-  // отримуємо ідентифікатор сонтакту з id
-  const { boardId } = req.params;
-
+export const updateCurrentBoard = async (req, res, next) => {   
+  const { boardId } = req.params; 
   // об'єкт  board - з полями які зчитуються з боді 
-  const board = {
-    title: req.body.title,
-    icons: req.body.icons,
-    background: req.body.background,
-    // ідентифікатор юзера який створює цей board,
-    // при створенні board беремо id користувача з jwt- токена
-    // owner: req.user.id,
-  };
+ const board = {
+   title: req.body.title,
+   icons: req.body.icons,
+   background: req.body.background,
+   // ідентифікатор юзера який створює board, при цьому беремо id user з jwt- токена
+   ownerUser: req.user.id,
+ };
 
   try {
-    //  змінити  Board може тільки юзер, котрий його створив -
-    // по співпадінню  "_id: boardId"  та  "owner: req.user.id"
+    //  змінити  Board може тільки юзер, котрий його створив - співпадіння  "_id: boardId"  та  "owner: req.user.id"
     // щоб findByIdAndUpdate ПОВЕРНУВ актуальну(нову а не стару) версію документа треба додати { new: true} -
     const result = await Board.findByIdAndUpdate(
       {
         _id: boardId,
-        owner: req.user.id,
+        ownerUser: req.user.id,
       },
       board,
       { new: true }
@@ -147,9 +137,5 @@ export const updateCurrentBoard = async (req, res, next) => {
     res.status(200).json(result);
   } catch (error) {
     next(error);
-  }
-
-
-
-
+  } 
 };

@@ -8,6 +8,8 @@ const { ACCESS_SECRET_KEY } = process.env;
 
 export const authenticate = async (req, res, next) => {
   const { authorization = "" } = req.headers;
+    // console.log({ authorization });
+
   const [bearer, token] = authorization.split(" ");
   if (bearer !== "Bearer") {
     next(HttpError(401));
@@ -19,6 +21,8 @@ export const authenticate = async (req, res, next) => {
       next(HttpError(401));
     }
     req.user = user;
+
+    // console.log(user);
     next();
   } catch (error) {
     next(HttpError(401));
