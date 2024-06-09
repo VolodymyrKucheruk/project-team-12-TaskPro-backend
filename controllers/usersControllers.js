@@ -13,8 +13,6 @@ const { ACCESS_SECRET_KEY, REFRESH_SECRET_KEY } = process.env;
 export const signUp = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    const atIndex = email.indexOf("@");
-    const name = email.substring(0, atIndex);
     const user = await User.findOne({ email });
 
     if (user) throw HttpError(409, "Email already in use");
@@ -27,8 +25,7 @@ export const signUp = async (req, res, next) => {
     cloudinaryAvatarURL = cloudinaryResponse.secure_url;
 
     const newUser = await User.create({
-      name: name,
-      email: email,
+      ...req.body,
       password: hashPassword,
       avatarURL: cloudinaryAvatarURL,
     });
@@ -47,8 +44,8 @@ export const signUp = async (req, res, next) => {
     await User.findByIdAndUpdate(newUser._id, { accessToken, refreshToken });
 
     res.status(201).json({
-      email: newUser.email,
       name: newUser.name,
+      email: newUser.email,
       avatarURL: cloudinaryAvatarURL,
       accessToken,
       refreshToken,

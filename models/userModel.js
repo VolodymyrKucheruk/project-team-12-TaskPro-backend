@@ -1,14 +1,13 @@
 import { model, Schema } from "mongoose";
 import { emailRegexp } from "./regex.js";
 
-
 const themeVariants = ["violet", "light", "dark"];
 
 const userSchema = new Schema(
   {
-    password: {
+    name: {
       type: String,
-      required: [true, "Password is required"],
+      required: [true, "User must have a name"],
     },
     email: {
       type: String,
@@ -16,9 +15,9 @@ const userSchema = new Schema(
       required: [true, "Email is required"],
       unique: true,
     },
-    name: {
+    password: {
       type: String,
-      required: false,
+      required: [true, "Password is required"],
     },
     avatarURL: {
       type: String,
