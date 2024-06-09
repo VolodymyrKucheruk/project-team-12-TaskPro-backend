@@ -8,6 +8,7 @@ import {
 } from "../controllers/dachboardControllers.js";
 //import { schemas } from "../schemas";
 //import {validates} from "../middlewares";
+import {authenticate} from "../helpers/authenticate.js";
 
 export const boardRouter = express.Router();
 
@@ -22,7 +23,7 @@ export const boardRouter = express.Router();
 // 2. Аутентифікує користувача.
 // 3. Викликає контроллер для створення дошки.
 // dashboardRoutes.post("/", validates, authenticate, createDashboard);
-boardRouter.post("/", createBoard);
+boardRouter.post("/", authenticate, createBoard);
 
 // Отримує всі дошки поточного користувача
 // 1. Аутентифікує користувача.
