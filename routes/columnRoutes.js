@@ -29,7 +29,7 @@ columnRouter.post("/:boardId", createColumn);
 // 1. Аутентифікує користувача.
 // 2. Викликає контроллер для отримання всіх колонки дошк.
 // dashboardRoutes.get("/", authenticate, controllerName);
-columnRouter.get("/", getAllColumns);
+columnRouter.get("/:boardId", getAllColumns);
 
 // Отримує колонку за ідентифікатором
 // 1. Перевіряє валідність ідентифікатора колонки.
@@ -37,7 +37,7 @@ columnRouter.get("/", getAllColumns);
 // 3. Аутентифікує користувача.
 // 4. Викликає контроллер для отримання колонки за ідентифікатором.
 // columnsRouter.get("/:columnId", validates, authenticate, controllerName);    getOneColumn
-columnRouter.get("/:columnId", getOneColumn);    
+columnRouter.get("/:boardId/:columnId", getOneColumn);    
 
 // Видаляє колонку за ідентифікатором
 // 1. Перевіряє валідність ідентифікатора колонки.
@@ -45,7 +45,7 @@ columnRouter.get("/:columnId", getOneColumn);
 // 3. Аутентифікує користувача.
 // 4. Викликає контроллер для видалення колонки за ідентифікатором.
 // columnsRouter.delete("/:columnId", validates, authenticate, controllerName);
-columnRouter.delete("/:columnId", deleteColumn);
+columnRouter.delete("/:boardId/:columnId", deleteColumn);
 
 // Оновлює колонку за ідентифікатором
 // 1. Перевіряє валідність ідентифікатора колонки.
@@ -54,6 +54,6 @@ columnRouter.delete("/:columnId", deleteColumn);
 // 4. Аутентифікує користувача.
 // 5. Викликає контроллер для оновлення колонки за ідентифікатором.
 // columnsRouter.patch("/:columnId", validates, authenticate, controllerName);
-columnRouter.patch("/:columnId", updateColumn);
+columnRouter.patch("/:boardId/:columnId", updateColumn);
 
 export default columnRouter;
