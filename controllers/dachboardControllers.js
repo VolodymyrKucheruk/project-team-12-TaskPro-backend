@@ -17,7 +17,7 @@ export const createBoard = async (req, res, next) => {
     background: req.body.background,
     // ідентифікатор юзера який створює цей контакт,
     // при створенні контакту ми беремо id користувача з jwt- токена
-    // owner: req.user.id,
+    owner: req.user.id,
   };
 
   try {
@@ -35,9 +35,10 @@ export const createBoard = async (req, res, next) => {
 
 export const getAllBoards = async (req, res, next) => {
   // ...
-  try {
-    // запит всіх Boards в колекції
-    const result = await Board.find();
+  try {      
+    // запит всіх Boards створених одним
+    // визначеним (через req.user.id) юзером - через jwt - токен
+    const result = await Board.find({ owner: req.user.id});
 
     res.status(200).json(result);
   } catch (error) {
@@ -62,7 +63,8 @@ export const getOneBoard = async (req, res, next) => {
 
   try {
     //  пошук з ідентифікатором   - якшо немає такого id - findById повертає null
-    const result = await Board.findById(boardId);
+    // const result = await Board.findById(boardId);
+    const result = await Board.findById({ _id: boardId, owner: req.user.id });
     //  обробка помилки - якщо контакт не знайдено
     if (result === null) {
       return res.status(404).json({ message: "Not found" });
@@ -90,7 +92,10 @@ export const deleteBoard = async (req, res, next) => {
   console.log(req.params);
   try {
     // якщо треба видалити не за id - метод findOneAndDelete({name: "Iv"} ) та зазначити по якому полю
-    const result = await Board.findByIdAndDelete(boardId);
+    const result = await Board.findByIdAndDelete({
+      _id: boardId,
+      owner: req.user.id,
+    });
     // перевірка - обробка помилки - якщо картку не знайдено
     if (result === null) {
       return res.status(404).json({ message: "Not found" });
@@ -123,10 +128,17 @@ export const updateCurrentBoard = async (req, res, next) => {
   };
 
   try {
+    //  змінити  Board може тільки юзер, котрий його створив -
+    // по співпадінню  "_id: boardId"  та  "owner: req.user.id"
     // щоб findByIdAndUpdate ПОВЕРНУВ актуальну(нову а не стару) версію документа треба додати { new: true} -
-    const result = await Board.findByIdAndUpdate(boardId, board, {
-      new: true,
-    });
+    const result = await Board.findByIdAndUpdate(
+      {
+        _id: boardId,
+        owner: req.user.id,
+      },
+      board,
+      { new: true }
+    );
     // перевірка - обробка помилки - якщо board не знайдено
     if (result === null) {
       return res.status(404).json({ message: "Not found" });
