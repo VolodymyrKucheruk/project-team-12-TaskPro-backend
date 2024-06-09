@@ -1,12 +1,12 @@
 import { User } from "../models/userModel.js";
 import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
 import HttpError from "../helpers/HttpError.js";
 import bcrypt from "bcrypt";
 import gravatar from "gravatar";
 import { v2 as cloudinary } from "cloudinary";
+import {listBoards} from "../services/dashboardServices.js"
 
-dotenv.config();
+
 
 const { ACCESS_SECRET_KEY, REFRESH_SECRET_KEY } = process.env;
 
@@ -138,7 +138,7 @@ export const current = async (req, res, next) => {
     const { _id: userId } = req.user;
     const user = await User.findById(userId);
 
-    const dashboards = await serv.listBoards({ owner: userId });
+    const dashboards = await listBoards({ owner: userId });
 
     res.status(200).json({
       user: {

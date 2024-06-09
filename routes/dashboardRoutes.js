@@ -5,7 +5,7 @@ import {
   getAllBoards,
   getOneBoard,
   updateCurrentBoard,
-} from "../controllers/dachboardControllers.js";
+} from "../controllers/dashboardControllers.js";
 //import { schemas } from "../schemas";
 //import {validates} from "../middlewares";
 import {authenticate} from "../helpers/authenticate.js";
