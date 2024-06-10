@@ -3,14 +3,13 @@ import morgan from "morgan";
 import cors from "cors";
 import dotenv from "dotenv";
 
-// мідлвара перевірки токена
 import { authenticate } from "./helpers/authenticate.js";
 
 import fs from "fs";
 
 import { userRouter } from "./routes/auth.js";
 import { todoRouter } from "./routes/todoRoutes.js";
-import { boardRouter } from "./routes/dashboardRoutes.js";
+import { boardRouter } from "./routes/boardRoutes.js";
 import { columnRouter } from "./routes/columnRoutes.js";
 
 import swaggerUi from "swagger-ui-express";

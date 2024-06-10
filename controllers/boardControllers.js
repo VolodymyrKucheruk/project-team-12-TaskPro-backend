@@ -1,5 +1,5 @@
-import Board from "../models/dashboardModel.js";    
-import { createBoardSchema } from "../schemas/dashboardSchema.js";
+import Board from "../models/boardModel.js";
+import { createBoardSchema } from "../schemas/boardSchema.js";
 
 // Логіка пов'язана з контроллерами дошки:
 
@@ -8,7 +8,7 @@ import { createBoardSchema } from "../schemas/dashboardSchema.js";
 // 2. Викликає сервіс для додавання нової дошки з даними з тіла запиту та ідентифікатором користувача.
 // 3. Відповідає з статусом 201 та новоствореною дошкою.
 
-export const createBoard = async (req, res, next) => { 
+export const createBoard = async (req, res, next) => {
   const board = {
     title: req.body.title,
     icons: req.body.icons,
@@ -18,11 +18,11 @@ export const createBoard = async (req, res, next) => {
   };
 
   try {
-    const result = await Board.create(board); 
-    res.status(201).json(result);     
+    const result = await Board.create(board);
+    res.status(201).json(result);
   } catch (error) {
     next(error);
-  }   
+  }
 };
 
 // getAllBoards: Отримує всі дошки, створені поточним користувачем, та повертає їх у відповіді.
@@ -30,7 +30,7 @@ export const createBoard = async (req, res, next) => {
 // 2. Викликає сервіс для отримання списку всіх дошок користувача.
 // 3. Відповідає з статусом 200 та списком дошок.
 
-export const getAllBoards = async (req, res, next) => {   
+export const getAllBoards = async (req, res, next) => {
   try {
     // запит всіх Boards створених одним визначеним (через req.user.id) юзером - через jwt - токен
     const result = await Board.find({ ownerUser: req.user.id });
@@ -48,7 +48,7 @@ export const getAllBoards = async (req, res, next) => {
 // 4. Виконує агрегацію для отримання задач, пов'язаних з кожною колонкою.  !!!!!!!!!11
 // 5. Відповідає з знайденою дошкою та колонками з задачами, або порожнім масивом колонок, якщо їх немає.  !!!!!!!!1111
 
-export const getOneBoard = async (req, res, next) => { 
+export const getOneBoard = async (req, res, next) => {
   // отримуємо ідентифікатор сонтакту з id
   const { boardId } = req.params;
 
@@ -81,7 +81,7 @@ export const getOneBoard = async (req, res, next) => {
 // 6. Видаляє всі задачі, пов'язані з колонками.  !!!!!!!!!!!11
 // 7. Відповідає з видаленими дошкою, колонками та задачами, або викликає помилку 404, якщо об'єкти не знайдено. !!!!!!!!!!
 
-export const deleteBoard = async (req, res, next) => {     
+export const deleteBoard = async (req, res, next) => {
   // отримуємо ідентифікатор board з id
   const { boardId } = req.params;
   console.log(req.params);
@@ -107,16 +107,16 @@ export const deleteBoard = async (req, res, next) => {
 // 2. Викликає сервіс для оновлення дошки за ідентифікатором та даними з тіла запиту.
 // 3. Відповідає з статусом 200 та оновленою дошкою.
 
-export const updateCurrentBoard = async (req, res, next) => {   
-  const { boardId } = req.params; 
-  // об'єкт  board - з полями які зчитуються з боді 
- const board = {
-   title: req.body.title,
-   icons: req.body.icons,
-   background: req.body.background,
-   // ідентифікатор юзера який створює board, при цьому беремо id user з jwt- токена
-   ownerUser: req.user.id,
- };
+export const updateCurrentBoard = async (req, res, next) => {
+  const { boardId } = req.params;
+  // об'єкт  board - з полями які зчитуються з боді
+  const board = {
+    title: req.body.title,
+    icons: req.body.icons,
+    background: req.body.background,
+    // ідентифікатор юзера який створює board, при цьому беремо id user з jwt- токена
+    ownerUser: req.user.id,
+  };
 
   try {
     //  змінити  Board може тільки юзер, котрий його створив - співпадіння  "_id: boardId"  та  "owner: req.user.id"
@@ -137,5 +137,5 @@ export const updateCurrentBoard = async (req, res, next) => {
     res.status(200).json(result);
   } catch (error) {
     next(error);
-  } 
+  }
 };

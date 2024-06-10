@@ -1,16 +1,17 @@
 import mongoose from "mongoose";
 
-
-const columnSchema = new mongoose.Schema(
+const boardSchema = new mongoose.Schema(
   {
     title: {
       type: String,
-      required: true,
+      required: [true, "Title"],
       trim: true,
     },
-    ownerBoard: {
+    iconURL: String,
+    backgroundURL: String,
+    ownerUser: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "board",
+      ref: "user",
       required: true,
     },
   },
@@ -20,4 +21,4 @@ const columnSchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.model("Column", columnSchema);
+export default mongoose.model("Dashboard", boardSchema);

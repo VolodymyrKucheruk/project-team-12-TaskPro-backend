@@ -5,18 +5,13 @@ import {
   getAllBoards,
   getOneBoard,
   updateCurrentBoard,
-} from "../controllers/dashboardControllers.js";
+} from "../controllers/boardControllers.js";
 //import { schemas } from "../schemas";
 //import {validates} from "../middlewares";
 import {authenticate} from "../helpers/authenticate.js";
 
 export const boardRouter = express.Router();
 
-/**
-  |============================
-  | ROUTES
-  |============================
-*/
 
 // Створює нову дошку
 // 1. Валідовує тіло запиту за схемою створення дошки.

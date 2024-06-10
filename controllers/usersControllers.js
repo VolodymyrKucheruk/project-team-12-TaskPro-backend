@@ -4,9 +4,7 @@ import HttpError from "../helpers/HttpError.js";
 import bcrypt from "bcrypt";
 import gravatar from "gravatar";
 import { v2 as cloudinary } from "cloudinary";
-import {listBoards} from "../services/dashboardServices.js"
-
-
+import { getAllBoards } from "../controllers/boardControllers.js";
 
 const { ACCESS_SECRET_KEY, REFRESH_SECRET_KEY } = process.env;
 
@@ -138,7 +136,7 @@ export const current = async (req, res, next) => {
     const { _id: userId } = req.user;
     const user = await User.findById(userId);
 
-    const dashboards = await listBoards({ owner: userId });
+    const dashboards = await getAllBoards({ owner: userId });
 
     res.status(200).json({
       user: {
@@ -159,27 +157,9 @@ export const current = async (req, res, next) => {
   }
 };
 
-export const updateAvatar = async (req, res, next) => {
-  try {
-    if (!req.user) {
-      throw HttpError(401, "Not authorized");
-    }
-    const { _id } = req.user;
-    const result = await cloudinary.uploader.upload(req.file.path);
-    const avatarURL = result.secure_url;
-    await User.findByIdAndUpdate(_id, { avatarURL });
-
-    res.json({
-      avatarURL,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
 export const updateUserInfo = async (req, res, next) => {
   try {
-    const {} = req.body;
+    const { name, email, password } = req.body;
     let avatarURL = req.user.avatarURL;
     if (req.file) {
       const result = await cloudinary.uploader.upload(req.file.path);
@@ -188,27 +168,34 @@ export const updateUserInfo = async (req, res, next) => {
     const updatedFields = {
       name: name || req.user.name,
       email: email || req.user.email,
-
       avatarURL,
     };
-    if (gender !== undefined && gender !== "") {
-      updatedFields.gender = gender;
+
+    if (password) {
+      const passwordHash = await bcrypt.hash(password, 10);
+      updatedFields.password = passwordHash;
     }
+
     const updatedUser = await User.findByIdAndUpdate(
-      req.user.id,
+      req.user._id,
       updatedFields,
       {
         new: true,
       }
-    ).select(
-      "_id name dailyWaterNorma avatarURL gender weight activeSportTime email"
-    );
+    ).select("_id name avatarURL email");
+
     if (!updatedUser) {
       return next(new HttpError(404, "User not found"));
     }
-    res.json(updatedUser);
+    res.json({
+      user: {
+        name: updatedUser.name,
+        email: updatedUser.email,
+        avatarURL: updatedUser.avatarURL,
+      },
+    });
   } catch (error) {
-    next(new HttpError(500, "Internal Server Error"));
+    next(error);
   }
 };
 

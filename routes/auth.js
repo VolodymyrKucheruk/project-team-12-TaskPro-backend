@@ -14,7 +14,6 @@ import {
   signOut,
   current,
   updateUserInfo,
-  updateAvatar,
   refresh,
   googleAuth,
 } from "../controllers/usersControllers.js";
@@ -27,12 +26,6 @@ userRouter.post("/signUp", validateBody(signUpSchema), signUp);
 userRouter.post("/signIn", validateBody(signInSchema), signIn);
 userRouter.post("/signOut", authenticate, signOut);
 userRouter.get("/current", authenticate, current);
-userRouter.patch(
-  "/avatars",
-  authenticate,
-  upload.single("avatar"),
-  updateAvatar
-);
 userRouter.post("/refresh", validateBody(refreshSchema), refresh);
 userRouter.patch(
   "/update",

@@ -10,12 +10,6 @@ export const signUpSchema = Joi.object({
   password: Joi.string().required(),
 });
 
-export const emailSchema = Joi.object({
-  email: Joi.string().pattern(emailRegexp).required().messages({
-    "string.pattern.base": "Email must be a valid email address",
-  }),
-});
-
 export const signInSchema = Joi.object({
   email: Joi.string().pattern(emailRegexp).required().messages({
     "string.pattern.base": "Email must be a valid email address",
@@ -31,5 +25,5 @@ export const updateUserInfoSchema = Joi.object({
   email: Joi.string().pattern(emailRegexp).messages({
     "string.pattern.base": "Email must be a valid email address",
   }),
-  avatar: Joi.any(),
+  password: Joi.string().min(8).max(32),
 });
