@@ -7,8 +7,8 @@ const boardSchema = new mongoose.Schema(
       required: [true, "Title"],
       trim: true,
     },
-    iconURL: String,
-    backgroundURL: String,
+    icon: String,
+    background: String,
     ownerUser: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
@@ -21,4 +21,4 @@ const boardSchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.model("Dashboard", boardSchema);
+export default mongoose.model("Board", boardSchema);

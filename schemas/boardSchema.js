@@ -2,13 +2,13 @@ import Joi from "joi";
 
 export const createBoardSchema = Joi.object({
   title: Joi.string().required(),
-  icons: Joi.string().required(),
-  backgroundURL: Joi.string().required(),
+  icon: Joi.string().required(),
+  background: Joi.string().required(),
 });
 export const updateBoardSchema = Joi.object({
   title: Joi.string(),
-  iconURL: Joi.string(),
-  backgroundURL: Joi.string(),
+  icon: Joi.string(),
+  background: Joi.string(),
 });
 
 

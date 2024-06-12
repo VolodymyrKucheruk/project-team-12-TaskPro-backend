@@ -1,7 +1,7 @@
 import { isValidObjectId } from "mongoose";
 import HttpError from "./HttpError.js";
 
-const isValidId = (paramsId) => (req, res, next) => {
+export const isValidId = (paramsId) => (req, res, next) => {
   const id = req.params[paramsId];
 
   if (!isValidObjectId(id)) {
@@ -10,4 +10,4 @@ const isValidId = (paramsId) => (req, res, next) => {
   next();
 };
 
-export default isValidId;
+

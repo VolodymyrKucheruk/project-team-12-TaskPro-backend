@@ -8,23 +8,21 @@ const { ACCESS_SECRET_KEY } = process.env;
 
 export const authenticate = async (req, res, next) => {
   const { authorization = "" } = req.headers;
-    // console.log({ authorization });
 
   const [bearer, token] = authorization.split(" ");
   if (bearer !== "Bearer") {
-    next(HttpError(401));
+    return next(new HttpError(401, "Unauthorized"));
   }
   try {
     const { id } = jwt.verify(token, ACCESS_SECRET_KEY);
     const user = await User.findById(id);
     if (!user || !user.accessToken || user.accessToken !== token) {
-      next(HttpError(401));
+      return next(new HttpError(401, "Unauthorized"));
     }
     req.user = user;
 
-    // console.log(user);
     next();
   } catch (error) {
-    next(HttpError(401));
+    next(new HttpError(401, "Unauthorized"));
   }
 };

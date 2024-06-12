@@ -4,7 +4,7 @@ import HttpError from "../helpers/HttpError.js";
 import bcrypt from "bcrypt";
 import gravatar from "gravatar";
 import { v2 as cloudinary } from "cloudinary";
-import { getAllBoards } from "../controllers/boardControllers.js";
+import { getUserBoards } from "../services/boardsService.js";
 
 const { ACCESS_SECRET_KEY, REFRESH_SECRET_KEY } = process.env;
 
@@ -134,9 +134,18 @@ export const refresh = async (req, res, next) => {
 export const current = async (req, res, next) => {
   try {
     const { _id: userId } = req.user;
+    console.log(`User ID: ${userId}`);
     const user = await User.findById(userId);
 
-    const dashboards = await getAllBoards({ owner: userId });
+    if (!user) {
+      console.log("User not found");
+      return next(new HttpError(404, "User not found"));
+    }
+
+    console.log(`Fetching boards for user with ID: ${userId}`);
+    const boards = await getUserBoards(userId);
+
+    console.log(`Boards fetched for user with ID: ${userId}`, boards);
 
     res.status(200).json({
       user: {
@@ -146,13 +155,15 @@ export const current = async (req, res, next) => {
         avatarURL: user.avatarURL,
         theme: user.theme,
       },
-      boards: dashboards.map((dashboard) => ({
-        id: dashboard._id,
-        title: dashboard.title,
-        background: dashboard.backgroundURL,
+      boards: boards.map((board) => ({
+        id: board._id,
+        icon: board.icon,
+        title: board.title,
+        background: board.background,
       })),
     });
   } catch (error) {
+    console.error("Error occurred:", error);
     next(error);
   }
 };

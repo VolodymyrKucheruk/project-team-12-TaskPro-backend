@@ -3,7 +3,6 @@ import morgan from "morgan";
 import cors from "cors";
 import dotenv from "dotenv";
 
-import { authenticate } from "./helpers/authenticate.js";
 
 import fs from "fs";
 
@@ -27,7 +26,7 @@ app.use(express.json());
 app.use(express.static("public"));
 app.use("/api/users", userRouter);
 app.use("/api/todos", todoRouter);
-app.use("/api/boards", authenticate, boardRouter);
+app.use("/api/boards", boardRouter);
 app.use("/api/columns", columnRouter);   
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
