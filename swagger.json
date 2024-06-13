@@ -235,8 +235,8 @@
           }
         }
       }
-    },
-    "/api/boards": {
+    },     
+    "/api/boards/create": {
       "post": {
         "tags": ["Boards"],
         "summary": "Create a new board",
@@ -1122,23 +1122,24 @@
           }
         }
       },
+
       "CreateBoardRequest": {
         "type": "object",
+        "required": ["title", "icon", "background"],
         "properties": {
           "title": {
             "type": "string",
             "description": "Board's title"
           },
-          "iconURL": {
+          "icon": {
             "type": "string",
             "description": "URL to board's icon image"
           },
-          "backgroundURL": {
+          "background": {
             "type": "string",
             "description": "URL to board's background image"
           }
-        },
-        "required": ["title"]
+        }         
       },
       "CreateBoardResponse": {
         "type": "object",
@@ -1157,43 +1158,27 @@
               "title": "Project X"
             }
           },
-          "iconURL": {
+          "icon": {
             "type": "string",
             "description": "URL to board's icon image",
             "example": {
               "iconURL": "https://example.com/icons/project_x.png"
             }
           },
-          "backgroundURL": {
+          "background": {
             "type": "string",
             "description": "URL to board's background image",
             "example": {
               "backgroundURL": "https://example.com/backgrounds/project_x.jpg"
             }
           },
-          "owner": {
+          "ownerUser": {
             "type": "string",
             "description": "Owner's user ID",
             "example": {
               "owner": "611af8bfe7b6b918a8319b27"
             }
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Board's creation date",
-            "example": {
-              "createdAt": "2024-03-03T14:03:37.397+00:00"
-            }
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Board's last update date",
-            "example": {
-              "updatedAt": "2024-03-03T18:17:41.576+00:00"
-            }
-          }
+          }          
         }
       },
 
