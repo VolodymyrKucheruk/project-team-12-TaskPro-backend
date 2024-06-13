@@ -21,7 +21,6 @@ import passport from "../helpers/google-authenticate.js";
 
 export const userRouter = express.Router();
 
-
 userRouter.post("/signUp", validateBody(signUpSchema), signUp);
 userRouter.post("/signIn", validateBody(signInSchema), signIn);
 userRouter.post("/signOut", authenticate, signOut);
@@ -30,7 +29,7 @@ userRouter.post("/refresh", validateBody(refreshSchema), refresh);
 userRouter.patch(
   "/update",
   authenticate,
-  upload.single('avatar'),
+  upload.single("avatar"),
   validateBody(updateUserInfoSchema),
   updateUserInfo
 );
@@ -43,3 +42,4 @@ userRouter.get(
   passport.authenticate("google", { session: false }),
   googleAuth
 );
+userRouter.post("/need-help", authenticate);

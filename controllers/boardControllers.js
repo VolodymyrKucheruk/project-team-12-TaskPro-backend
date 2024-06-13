@@ -2,7 +2,7 @@ import Board from "../models/boardModel.js";
 import Column from "../models/columnModel.js";
 import Todo from "../models/todoModel.js";
 import mongoose from "mongoose";
-import { getUserBoards } from "../services/boardsService.js"
+import { getUserBoards } from "../services/boardsService.js";
 
 export const createBoard = async (req, res, next) => {
   try {
@@ -13,7 +13,6 @@ export const createBoard = async (req, res, next) => {
     next(error);
   }
 };
-
 
 export const getAllBoards = async (req, res, next) => {
   try {
@@ -50,7 +49,6 @@ export const getOneBoard = async (req, res, next) => {
     next(error);
   }
 };
-
 
 export const deleteBoard = async (req, res, next) => {
   try {

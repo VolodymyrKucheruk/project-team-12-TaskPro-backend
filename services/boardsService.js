@@ -1,7 +1,5 @@
-// services/boardServices.js
 import Board from "../models/boardModel.js";
 import mongoose from "mongoose";
-
 
 export const getUserBoards = async (userId) => {
   console.log(`Fetching boards for user with ID: ${userId}`);

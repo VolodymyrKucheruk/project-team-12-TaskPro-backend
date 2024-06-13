@@ -170,7 +170,7 @@ export const current = async (req, res, next) => {
 
 export const updateUserInfo = async (req, res, next) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, theme } = req.body;
     let avatarURL = req.user.avatarURL;
     if (req.file) {
       const result = await cloudinary.uploader.upload(req.file.path);
@@ -180,6 +180,7 @@ export const updateUserInfo = async (req, res, next) => {
       name: name || req.user.name,
       email: email || req.user.email,
       avatarURL,
+      theme: theme || req.user.theme,
     };
 
     if (password) {
@@ -193,7 +194,7 @@ export const updateUserInfo = async (req, res, next) => {
       {
         new: true,
       }
-    ).select("_id name avatarURL email");
+    ).select("_id name avatarURL email theme");
 
     if (!updatedUser) {
       return next(new HttpError(404, "User not found"));
@@ -203,6 +204,7 @@ export const updateUserInfo = async (req, res, next) => {
         name: updatedUser.name,
         email: updatedUser.email,
         avatarURL: updatedUser.avatarURL,
+        theme: updatedUser.theme,
       },
     });
   } catch (error) {

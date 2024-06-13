@@ -1,6 +1,7 @@
 import Joi from "joi";
 
 const emailRegexp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+const themeVariants = ["violet", "light", "dark"];
 
 export const signUpSchema = Joi.object({
   name: Joi.string().min(2).max(32).required(),
@@ -26,4 +27,5 @@ export const updateUserInfoSchema = Joi.object({
     "string.pattern.base": "Email must be a valid email address",
   }),
   password: Joi.string().min(8).max(32),
+  theme: Joi.string().valid(...themeVariants),
 });

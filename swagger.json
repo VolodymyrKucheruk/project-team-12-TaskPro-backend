@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "version": "1.0.0",
-    "title": "Swagger Task Pro",
+    "title": "Swagger TaskPro",
     "description": "Showing off swagger-ui-express",
     "license": {
       "name": "MIT",
@@ -12,8 +12,8 @@
   "consumes": ["application/json", "multipart/form-data"],
   "produces": ["application/json", "multipart/form-data"],
   "servers": [
-    { "url": "https://taskpro-backend-uiwy.onrender.com" },
-    { "url": "http://localhost:3001" }
+    { "url": "https://project-team-12-taskpro-backend.onrender.com" },
+    { "url": "http://localhost:3000" }
   ],
   "tags": [
     {
@@ -165,6 +165,11 @@
                     "type": "string",
                     "format": "url",
                     "description": "URL to user's avatar image"
+                  },
+                  "theme": {
+                    "type": "string",
+                    "enum": ["violet", "light", "dark"],
+                    "description": "User's preferred theme"
                   }
                 },
                 "required": []
@@ -968,41 +973,36 @@
       "LoginResponse": {
         "type": "object",
         "properties": {
-          "token": {
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "example": "John Doe"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email",
+            "example": "user@example.com"
+          },
+          "avatar": {
+            "type": "string",
+            "description": "URL to user's avatar image",
+            "example": "https://res.cloudinary.com/dtgxgkg61/image/upload/v1717952798/ygxa7qty6vvhnbl2td8s.jpg"
+          },
+          "theme": {
+            "type": "string",
+            "description": "User's preferred theme",
+            "example": "light"
+          },
+          "accessToken": {
             "type": "string",
             "description": "User's token",
-            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZTRkNGM5YTE3MDE0OTEzN2VmYzE1MyIsImlhdCI6MTcwOTkwNjYzOSwiZXhwIjoxNzA5OTg5NDM5fQ.wjALCvAag4SyYYTXND9a3OOX9jZM-6qUD-0inA4wolA"
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NjVlMTFlN2Q4NTMzY2JiYzJjMzE5YSIsImlhdCI6MTcxODE4NzQ0NiwiZXhwIjoxNzE4NzkyMjQ2fQ.PVGU4hwwgJHDi1WMH2XTvG3U39ywYIl8oz2mitwmI24"
           },
-          "user": {
-            "type": "object",
-            "properties": {
-              "id": {
-                "type": "string",
-                "description": "User's ID",
-                "example": "65e4d4c9a170149137efc153"
-              },
-              "name": {
-                "type": "string",
-                "description": "User's name",
-                "example": "John Doe"
-              },
-              "email": {
-                "type": "string",
-                "description": "User's email",
-                "format": "email",
-                "example": "user@example.com"
-              },
-              "avatarURL": {
-                "type": "string",
-                "description": "URL to user's avatar image",
-                "example": "//www.gravatar.com/avatar/b58996c504c5638798eb6b511e6f49af"
-              },
-              "theme": {
-                "type": "string",
-                "description": "User's preferred theme",
-                "example": "light"
-              }
-            }
+          "refreshToken": {
+            "type": "string",
+            "description": "User's refresh token",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NjVlMTFlN2Q4NTMzY2JiYzJjMzE5YSIsImlhdCI6MTcxODE4NzQ0NiwiZXhwIjoxNzE5MDUxNDQ2fQ.Ek2JXCAF48vzM5viXEr3w_lg_NJxShk0GyfnAJMw00Y"
           }
         }
       },
@@ -1064,6 +1064,11 @@
             "type": "string",
             "format": "url",
             "description": "URL to user's avatar image"
+          },
+          "theme": {
+            "type": "string",
+            "enum": ["violet", "light", "dark"],
+            "description": "User's preferred theme"
           }
         }
       },
@@ -1086,6 +1091,11 @@
               "avatarURL": {
                 "type": "string",
                 "description": "URL to user's avatar image"
+              },
+              "theme": {
+                "type": "string",
+                "enum": ["violet", "light", "dark"],
+                "description": "User's preferred theme"
               }
             }
           }
