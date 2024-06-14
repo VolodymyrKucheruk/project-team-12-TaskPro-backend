@@ -236,6 +236,7 @@
         }
       }
     },
+
     "/api/boards/create": {
       "post": {
         "tags": ["Boards"],
@@ -271,7 +272,10 @@
             "content": {}
           }
         }
-      },
+      }
+    },
+
+    "/api/boards/": {
       "get": {
         "tags": ["Boards"],
         "summary": "Get all boards",
@@ -284,7 +288,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Board"
+                    "$ref": "#/components/schemas/AllBoardsResponse"
                   }
                 }
               }
@@ -293,10 +297,15 @@
           "401": {
             "description": "Unauthorized",
             "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
           }
         }
       }
     },
+
     "/api/boards/{boardId}": {
       "get": {
         "tags": ["Boards"],
@@ -320,7 +329,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Board"
+                  "$ref": "#/components/schemas/OneBoardResponse"
                 }
               }
             }
@@ -332,10 +341,13 @@
           "404": {
             "description": "Board not found",
             "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
           }
         }
-      },
-
+      }, 
       "delete": {
         "tags": ["Boards"],
         "summary": "Delete board by ID",
@@ -361,7 +373,7 @@
                   "type": "object",
                   "properties": {
                     "deletedBoard": {
-                      "$ref": "#/components/schemas/Board"
+                      "$ref": "#/components/schemas/DeleteBoardResponse"
                     },
                     "deletedColumn": {
                       "type": "object",
@@ -401,10 +413,13 @@
           "404": {
             "description": "Board not found",
             "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
           }
         }
-      },
-
+      }, 
       "patch": {
         "tags": ["Boards"],
         "summary": "Update board by ID",
@@ -437,7 +452,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Board"
+                  "$ref": "#/components/schemas/UpdateBoardResponse"                   
                 }
               }
             }
@@ -448,6 +463,10 @@
           },
           "404": {
             "description": "Board not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
             "content": {}
           }
         }
@@ -524,7 +543,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ColumnWithTodos"
+                  "$ref": "#/components/schemas/ColumnWithTodosResponse"
                 }
               }
             }
@@ -535,6 +554,10 @@
           },
           "404": {
             "description": "Column not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
             "content": {}
           }
         }
@@ -561,7 +584,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Column"
+                  "$ref": "#/components/schemas/deleteColumnResponse"
                 }
               }
             }
@@ -573,10 +596,13 @@
           "404": {
             "description": "Column not found",
             "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
           }
         }
       },
-
       "patch": {
         "tags": ["Columns"],
         "summary": "Update column by ID",
@@ -610,7 +636,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Column"
+                  "$ref": "#/components/schemas/UpdateColumnResponse"
                 }
               }
             }
@@ -622,10 +648,15 @@
           "404": {
             "description": "Column not found",
             "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
           }
         }
       }
     },
+
     "/api/todos/create/{columnId}": {
       "post": {
         "tags": ["Todos"],
@@ -731,7 +762,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Todo"
+                  "$ref": "#/components/schemas/DeleteTodoResponse"
                 }
               }
             }
@@ -745,7 +776,9 @@
             "content": {}
           }
         }
-      },
+      }
+    },
+    "/api/todos/update/{todoId}": {
       "patch": {
         "tags": ["Todos"],
         "summary": "Update todo by ID",
@@ -759,8 +792,8 @@
               "format": "ObjectId"
             },
             "description": "ID of the todo to update"
-          }           
-        ],    
+          }
+        ],
         "security": [{ "Bearer": [] }],
         "requestBody": {
           "required": true,
@@ -771,7 +804,7 @@
               }
             }
           }
-        },         
+        },
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -786,19 +819,19 @@
           "400": {
             "description": "Bad request",
             "content": {}
-          },          
+          },
           "404": {
             "description": "Route not found",
             "content": {}
           },
-           "500": {
+          "500": {
             "description": "Server error",
             "content": {}
           }
         }
       }
     },
-    "/todos/{todoId}/owner/{columnId}": {
+    "/api/todos/{todoId}/changeOwner/{columnId}": {
       "patch": {
         "summary": "Change todo's column",
         "tags": ["Todos"],
@@ -829,7 +862,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Todo"
+                  "$ref": "#/components/schemas/ChangeСolumnTodoResponse"
                 }
               }
             }
@@ -1162,6 +1195,105 @@
         }
       },
 
+      "AllBoardsResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Board's ID",
+            "example": "611af8bfe7b6b918a8319b26"
+          },
+          "title": {
+            "type": "string",
+            "description": "Board's title",
+            "example": {
+              "title": "Project X"
+            }
+          },
+          "icon": {
+            "type": "string",
+            "description": "URL to board's icon image",
+            "example": "https://example.com/icons/project_x.png"
+          },
+          "background": {
+            "type": "string",
+            "description": "URL to board's background image",
+            "example": "https://example.com/backgrounds/project_x.jpg"
+          },
+          "ownerUser": {
+            "type": "string",
+            "description": "Owner's user ID",
+            "example": "611af8bfe7b6b918a8319b27"
+          }
+        }
+      },
+
+      "OneBoardResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Board's ID",
+            "example": "611af8bfe7b6b918a8319b26"
+          },
+          "title": {
+            "type": "string",
+            "description": "Board's title",
+            "example": {
+              "title": "Project X"
+            }
+          },
+          "icon": {
+            "type": "string",
+            "description": "URL to board's icon image",
+            "example": "https://example.com/icons/project_x.png"
+          },
+          "background": {
+            "type": "string",
+            "description": "URL to board's background image",
+            "example": "https://example.com/backgrounds/project_x.jpg"
+          },
+          "ownerUser": {
+            "type": "string",
+            "description": "Owner's user ID",
+            "example": "611af8bfe7b6b918a8319b27"
+          }
+        }
+      },
+
+      "DeleteBoardResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Board's ID",
+            "example": "611af8bfe7b6b918a8319b26"
+          },
+          "title": {
+            "type": "string",
+            "description": "Board's title",
+            "example": {
+              "title": "Project X"
+            }
+          },
+          "icon": {
+            "type": "string",
+            "description": "URL to board's icon image",
+            "example": "https://example.com/icons/project_x.png"
+          },
+          "background": {
+            "type": "string",
+            "description": "URL to board's background image",
+            "example": "https://example.com/backgrounds/project_x.jpg"
+          },
+          "ownerUser": {
+            "type": "string",
+            "description": "Owner's user ID",
+            "example": "611af8bfe7b6b918a8319b27"
+          }
+        }
+      },
+
       "Board": {
         "type": "object",
         "properties": {
@@ -1213,20 +1345,68 @@
       "UpdateBoardRequest": {
         "type": "object",
         "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Board's ID",
+            "example": "611af8bfe7b6b918a8319b26"
+          },
           "title": {
             "type": "string",
-            "description": "Нова назва дошки"
+            "description": "Board's title",
+            "example": {
+              "title": "Project X"
+            }
           },
           "icon": {
             "type": "string",
-            "description": "Новий URL до значка дошки"
+            "description": "URL to board's icon image",
+            "example": "https://example.com/icons/project_x.png"
           },
           "background": {
             "type": "string",
-            "description": "Новий URL до фонового зображення дошки"
+            "description": "URL to board's background image",
+            "example": "https://example.com/backgrounds/project_x.jpg"
+          },
+          "ownerUser": {
+            "type": "string",
+            "description": "Owner's user ID",
+            "example": "611af8bfe7b6b918a8319b27"
           }
         }
-      },
+      },                 
+      "UpdateBoardResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Board's ID",
+            "example": "611af8bfe7b6b918a8319b26"
+          },
+          "title": {
+            "type": "string",
+            "description": "Board's title",
+            "example": {
+              "title": "Project X"
+            }
+          },
+          "icon": {
+            "type": "string",
+            "description": "URL to board's icon image",
+            "example": "https://example.com/icons/project_x.png"
+          },
+          "background": {
+            "type": "string",
+            "description": "URL to board's background image",
+            "example": "https://example.com/backgrounds/project_x.jpg"
+          },
+          "ownerUser": {
+            "type": "string",
+            "description": "Owner's user ID",
+            "example": "611af8bfe7b6b918a8319b27"
+          }
+        }
+      }, 
+
       "Column": {
         "type": "object",
         "properties": {
@@ -1261,6 +1441,7 @@
           "updatedAt": "2024-03-05T14:54:47.187Z"
         }
       },
+
       "CreateColumnRequest": {
         "type": "object",
         "required": ["title"],
@@ -1287,7 +1468,8 @@
           }
         }
       },
-      "ColumnWithTodos": {
+
+      "ColumnWithTodosResponse": {
         "type": "object",
         "properties": {
           "column": {
@@ -1301,19 +1483,54 @@
           }
         }
       },
+
+      "DeleteColumnResponse": {
+        "type": "object",
+        "properties": {
+          "column": {
+            "$ref": "#/components/schemas/Column"
+          },
+          "todos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Todo"
+            }
+          }
+        }
+      },
+
       "UpdateColumnRequest": {
+        "type": "object",
+        "required": ["title"],
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "New title of the column",
+            "example": "New Title"
+          },
+          "ownerBoard": {
+            "type": "string",
+            "description": "Owner's board ID",
+            "example": "666b4da0b78ce34aec99eb54"
+          }
+        }
+      },
+      "UpdateColumnResponse": {
         "type": "object",
         "properties": {
           "title": {
             "type": "string",
-            "description": "New title of the column"
+            "description": "New title of the column",
+            "example": "New Title"
+          },
+          "ownerBoard": {
+            "type": "string",
+            "description": "Owner's board ID",
+            "example": "666b4da0b78ce34aec99eb54"
           }
-        },
-        "required": ["title"],
-        "example": {
-          "title": "New Title"
         }
       },
+
       "Todo": {
         "type": "object",
         "properties": {
@@ -1488,7 +1705,36 @@
             "description": "Owner's board ID",
             "example": "'666b650246b96750d5374535"
           }
-        } 
+        }
+      },
+      "DeleteTodoRespons": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Title of the todo"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the todo"
+          },
+          "priority": {
+            "type": "string",
+            "description": "Priority of the todo",
+            "enum": ["Without priority", "Low", "Medium", "High"],
+            "default": "Without priority"
+          },
+          "deadline": {
+            "type": "string",
+            "format": "date",
+            "description": "Deadline for the todo"
+          },
+          "ownerColumn": {
+            "type": "string",
+            "description": "Owner's board ID",
+            "example": "'666b650246b96750d5374535"
+          }
+        }
       },
       "UpdateTodoRequest": {
         "type": "object",
@@ -1548,8 +1794,35 @@
           }
         }
       },
-
-
+      "ChangeСolumnTodoResponse": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Title of the todo"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the todo"
+          },
+          "priority": {
+            "type": "string",
+            "description": "Priority of the todo",
+            "enum": ["Without priority", "Low", "Medium", "High"],
+            "default": "Without priority"
+          },
+          "deadline": {
+            "type": "string",
+            "format": "date",
+            "description": "Deadline for the todo"
+          },
+          "ownerColumn": {
+            "type": "string",
+            "description": "Owner's board ID",
+            "example": "'666b650246b96750d5374535"
+          }
+        }
+      },
 
       "HelpRequest": {
         "type": "object",
