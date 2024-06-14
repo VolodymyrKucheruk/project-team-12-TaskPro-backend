@@ -1286,33 +1286,34 @@
         "properties": {
           "_id": {
             "type": "string",
-            "description": "Ідентифікатор дошки"
+            "description": "Board's ID"             
           },
           "title": {
             "type": "string",
-            "description": "Назва дошки"
+            "description": "Board's title"             
           },
           "icon": {
             "type": "string",
-            "description": "URL до значка дошки"
+            "description": "URL to board's icon image"             
           },
           "background": {
             "type": "string",
-            "description": "URL до фонового зображення дошки"
+            "description": "URL to board's background image"             
           },
           "ownerUser": {
             "type": "string",
-            "description": "Ідентифікатор власника дошки"
+            "description": "Owner's user ID",
+            "example": "611af8bfe7b6b918a8319b27"
           },
           "createdAt": {
             "type": "string",
             "format": "date-time",
-            "description": "Дата створення дошки"
+            "description": "Board creation date"
           },
           "updatedAt": {
             "type": "string",
             "format": "date-time",
-            "description": "Дата останнього оновлення дошки"
+            "description": "Date the board was last updated"
           }
         },
         "example": {
