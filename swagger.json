@@ -1263,37 +1263,24 @@
 
       "DeleteBoardResponse": {
         "type": "object",
-        "properties": {
-          "_id": {
-            "type": "string",
-            "description": "Board's ID",
-            "example": "611af8bfe7b6b918a8319b26"
+        "properties": { 
+             "board": {
+            "$ref": "#/components/schemas/Board"
           },
-          "title": {
-            "type": "string",
-            "description": "Board's title",
-            "example": {
-              "title": "Project X"
+          "column": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Column"
             }
-          },
-          "icon": {
-            "type": "string",
-            "description": "URL to board's icon image",
-            "example": "https://example.com/icons/project_x.png"
-          },
-          "background": {
-            "type": "string",
-            "description": "URL to board's background image",
-            "example": "https://example.com/backgrounds/project_x.jpg"
-          },
-          "ownerUser": {
-            "type": "string",
-            "description": "Owner's user ID",
-            "example": "611af8bfe7b6b918a8319b27"
-          }
-        }
-      },
-
+          }, 
+         "todos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Todo"
+            }
+          }         
+      }
+    },
       "Board": {
         "type": "object",
         "properties": {
