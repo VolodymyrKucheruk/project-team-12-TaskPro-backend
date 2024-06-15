@@ -23,6 +23,22 @@
     {
       "name": "User",
       "description": "User-related endpoints"
+    },
+    {
+      "name": "Boards",
+      "description": "Boards-related endpoints"
+    },
+    {
+      "name": "Columns",
+      "description": "Columns-related endpoints"
+    },
+    {
+      "name": "Todos",
+      "description": "Todos-related endpoints"
+    },
+    {
+      "name": "Email",
+      "description": "Email-related endpoints"
     }
   ],
   "paths": {
@@ -347,7 +363,7 @@
             "content": {}
           }
         }
-      }, 
+      },
       "delete": {
         "tags": ["Boards"],
         "summary": "Delete board by ID",
@@ -419,7 +435,7 @@
             "content": {}
           }
         }
-      }, 
+      },
       "patch": {
         "tags": ["Boards"],
         "summary": "Update board by ID",
@@ -452,7 +468,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UpdateBoardResponse"                   
+                  "$ref": "#/components/schemas/UpdateBoardResponse"
                 }
               }
             }
@@ -1263,8 +1279,8 @@
 
       "DeleteBoardResponse": {
         "type": "object",
-        "properties": { 
-             "board": {
+        "properties": {
+          "board": {
             "$ref": "#/components/schemas/Board"
           },
           "column": {
@@ -1272,33 +1288,33 @@
             "items": {
               "$ref": "#/components/schemas/Column"
             }
-          }, 
-         "todos": {
+          },
+          "todos": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Todo"
             }
-          }         
-      }
-    },
+          }
+        }
+      },
       "Board": {
         "type": "object",
         "properties": {
           "_id": {
             "type": "string",
-            "description": "Board's ID"             
+            "description": "Board's ID"
           },
           "title": {
             "type": "string",
-            "description": "Board's title"             
+            "description": "Board's title"
           },
           "icon": {
             "type": "string",
-            "description": "URL to board's icon image"             
+            "description": "URL to board's icon image"
           },
           "background": {
             "type": "string",
-            "description": "URL to board's background image"             
+            "description": "URL to board's background image"
           },
           "ownerUser": {
             "type": "string",
@@ -1361,7 +1377,7 @@
             "example": "611af8bfe7b6b918a8319b27"
           }
         }
-      },                 
+      },
       "UpdateBoardResponse": {
         "type": "object",
         "properties": {
@@ -1393,7 +1409,7 @@
             "example": "611af8bfe7b6b918a8319b27"
           }
         }
-      }, 
+      },
 
       "Column": {
         "type": "object",
