@@ -5,6 +5,7 @@ import bcrypt from "bcrypt";
 import gravatar from "gravatar";
 import { v2 as cloudinary } from "cloudinary";
 import { getUserBoards } from "../services/boardsService.js";
+import { sendEmail } from "../helpers/emailService.js";
 
 const { ACCESS_SECRET_KEY, REFRESH_SECRET_KEY } = process.env;
 
@@ -76,6 +77,7 @@ export const signIn = async (req, res, next) => {
     await User.findOneAndUpdate(user._id, { accessToken, refreshToken });
 
     res.json({
+      id: user._id,
       name: user.name,
       email: user.email,
       avatar: user.avatarURL,
@@ -134,18 +136,12 @@ export const refresh = async (req, res, next) => {
 export const current = async (req, res, next) => {
   try {
     const { _id: userId } = req.user;
-    console.log(`User ID: ${userId}`);
     const user = await User.findById(userId);
 
     if (!user) {
-      console.log("User not found");
       return next(new HttpError(404, "User not found"));
     }
-
-    console.log(`Fetching boards for user with ID: ${userId}`);
     const boards = await getUserBoards(userId);
-
-    console.log(`Boards fetched for user with ID: ${userId}`, boards);
 
     res.status(200).json({
       user: {
@@ -163,7 +159,6 @@ export const current = async (req, res, next) => {
       })),
     });
   } catch (error) {
-    console.error("Error occurred:", error);
     next(error);
   }
 };
@@ -207,6 +202,26 @@ export const updateUserInfo = async (req, res, next) => {
         theme: updatedUser.theme,
       },
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const sendHelpRequest = async (req, res, next) => {
+  const { email, comment } = req.body;
+
+  const emailData = {
+    to: "taskpro.project@gmail.com",
+    subject: "Need Help",
+    text: `User Email: ${email}\nComment: ${comment}`,
+  };
+
+  try {
+    const result = await sendEmail(emailData);
+    if (!result) {
+      throw new HttpError(500, "Error sending email");
+    }
+    res.status(200).json({ message: "Email sent successfully" });
   } catch (error) {
     next(error);
   }

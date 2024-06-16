@@ -5,6 +5,7 @@ import {
   signInSchema,
   refreshSchema,
   updateUserInfoSchema,
+  helpSchema,
 } from "../schemas/userSchema.js";
 import { authenticate } from "../helpers/authenticate.js";
 import { upload } from "../helpers/upload.js";
@@ -16,6 +17,7 @@ import {
   updateUserInfo,
   refresh,
   googleAuth,
+  sendHelpRequest,
 } from "../controllers/usersControllers.js";
 import passport from "../helpers/google-authenticate.js";
 
@@ -42,4 +44,8 @@ userRouter.get(
   passport.authenticate("google", { session: false }),
   googleAuth
 );
-userRouter.post("/need-help", authenticate);
+userRouter.post(
+  "/help",
+  validateBody(helpSchema),
+  sendHelpRequest
+);

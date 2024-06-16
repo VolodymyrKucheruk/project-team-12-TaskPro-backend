@@ -29,3 +29,10 @@ export const updateUserInfoSchema = Joi.object({
   password: Joi.string().min(8).max(32),
   theme: Joi.string().valid(...themeVariants),
 });
+
+export const helpSchema = Joi.object({
+  email: Joi.string().pattern(emailRegexp).required().messages({
+    "string.pattern.base": "Email must be a valid email address",
+  }),
+  comment: Joi.string().min(10).required(),
+});
