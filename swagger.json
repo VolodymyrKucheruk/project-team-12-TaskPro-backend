@@ -185,7 +185,7 @@
                           "icon": {
                             "type": "string",
                             "description": "Board's icon",
-                            "example": "🏠"
+                            "example": "icon-puzzle-piece-02"
                           },
                           "title": {
                             "type": "string",
@@ -811,7 +811,7 @@
         }
       }
     },
-    "/api/todos/{todoId}/column/update": {
+    "/api/todos/{todoId}/{columnId}/update": {
       "patch": {
         "tags": ["Todos"],
         "summary": "Change todo owner",
@@ -859,7 +859,7 @@
         }
       }
     },
-    "/api/users/send": {
+    "/api/users/help": {
       "post": {
         "tags": ["Email"],
         "summary": "Send an email",
@@ -1082,21 +1082,17 @@
         "type": "object",
         "required": ["to", "subject", "body"],
         "properties": {
-          "to": {
+          "email": {          
             "type": "string",
-            "description": "Recipient email address",
+            "description": "User's email",
+            "format": "email",
             "example": "recipient@example.com"
           },
-          "subject": {
+          "comment": {
             "type": "string",
             "description": "Email subject",
-            "example": "Hello!"
-          },
-          "body": {
-            "type": "string",
-            "description": "Email body",
-            "example": "This is the body of the email."
-          }
+            "example": "Hello my litlle darling!"
+          }     
         }
       },      
       "BoardResponse": {
