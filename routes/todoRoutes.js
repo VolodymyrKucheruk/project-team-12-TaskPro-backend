@@ -36,7 +36,8 @@ todoRouter.patch(
 );
 
 todoRouter.patch(
-  "/:todoId/changeOwner/:columnId",
+  // "/:todoId/changeOwner/:columnId",
+  "/:todoId/:columnId/update",
   authenticate,
   isValidId("todoId"),
   isValidId("columnId"),
