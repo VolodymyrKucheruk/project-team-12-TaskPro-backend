@@ -58,14 +58,13 @@ export const deleteBoard = async (req, res, next) => {
     if (!board) {
       return next(HttpError(404, "Board not found"));
     }
-
     const deletedBoard = await Board.findByIdAndDelete(boardId);
-    const columns = await Column.find({ board: boardId });
-    const ArrayColumnsIds = columns.map((column) => column._id);
+    const columns = await Column.find({ ownerBoard: boardId });
+    const ArrayColumnsIds = columns.map((column) => column._id.toString());
 
     const [deletedColumns, deletedTodos] = await Promise.all([
-      Column.deleteMany({ board: boardId }),
-      Todo.deleteMany({ column: ArrayColumnsIds }),
+      Column.deleteMany({ ownerBoard: boardId }),
+      Todo.deleteMany({ ownerColumn: { $in: ArrayColumnsIds } }),
     ]);
 
     res.json({
