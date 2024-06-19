@@ -33,6 +33,6 @@ export const updateUserInfoSchema = Joi.object({
 export const helpSchema = Joi.object({
   email: Joi.string().pattern(emailRegexp).required().messages({
     "string.pattern.base": "Email must be a valid email address",
-  }),
+  }),   
   comment: Joi.string().min(10).required(),
 });

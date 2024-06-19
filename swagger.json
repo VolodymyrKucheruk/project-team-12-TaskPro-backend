@@ -3,7 +3,7 @@
   "info": {
     "version": "1.0.0",
     "title": "Swagger TaskPro",
-    "description": "Showing off swagger-ui-express",
+    "description": "Showing off swagger-ui-express.[Backend github repository](https://github.com/VolodymyrKucheruk/project-team-12-TaskPro-backend)",
     "license": {
       "name": "MIT",
       "url": "https://opensource.org/licenses/MIT"
@@ -36,7 +36,7 @@
     }
   ],
   "paths": {
-    "/api/users/signUp": {
+    "/api/users/signup": {
       "post": {
         "tags": ["User"],
         "summary": "User registration",
@@ -74,7 +74,7 @@
         }
       }
     },
-    "/api/users/signIn": {
+    "/api/users/signin": {
       "post": {
         "tags": ["User"],
         "summary": "Login - sign in existing user",
@@ -112,7 +112,7 @@
         }
       }
     },
-    "/api/users/signOut": {
+    "/api/users/signout": {
       "post": {
         "tags": ["User"],
         "summary": "Logout current user",
@@ -146,7 +146,7 @@
                         "id": {
                           "type": "string",
                           "description": "User ID",
-                          "example": "60c72b2f9b1e8a6d4c7a9a1d"
+                          "example": "6670bb38014fc2739c81ec8"
                         },
                         "name": {
                           "type": "string",
@@ -162,7 +162,7 @@
                         "avatarURL": {
                           "type": "string",
                           "description": "URL to user's avatar",
-                          "example": "https://example.com/avatar.jpg"
+                          "example": "https://res.cloudinary.com/dtgxgkg61/image/upload/v1718663990/hmo4jaowcebmdz430cwk.jpg"
                         },
                         "theme": {
                           "type": "string",
@@ -185,7 +185,7 @@
                           "icon": {
                             "type": "string",
                             "description": "Board's icon",
-                            "example": "🏠"
+                            "example": "icon-puzzle-piece-02"
                           },
                           "title": {
                             "type": "string",
@@ -204,7 +204,7 @@
                 }
               }
             }
-          },
+          }, 
           "401": {
             "description": "Unauthorized"
           },
@@ -213,8 +213,7 @@
           }
         }
       }
-    },
-
+    }, 
     "/api/users/update": {
       "patch": {
         "tags": ["User"],
@@ -230,17 +229,51 @@
             }
           }
         },
-        "responses": {
+        "responses": { 
           "200": {
             "description": "Successful operation",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserResponse"
+                  "type": "object",
+                  "properties": {
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "description": "User ID",
+                          "example": "60c72b2f9b1e8a6d4c7a9a1d"
+                        },
+                        "name": {
+                          "type": "string",
+                          "description": "User's name",
+                          "example": "Alex"
+                        },
+                        "email": {
+                          "type": "string",
+                          "description": "User's email",
+                          "format": "email",
+                          "example": "alex@example.com"
+                        },
+                        "avatarURL": {
+                          "type": "string",
+                          "description": "URL to user's avatar",
+                          "example": "https://res.cloudinary.com/dtgxgkg61/image/upload/v1718663990/hmo4jaowcebmdz430cwk.jpg"
+                        },
+                        "theme": {
+                          "type": "string",
+                          "description": "User's preferred theme",
+                          "enum": ["violet", "light", "dark"],
+                          "example": "dark"
+                        }
+                      }
+                    }                   
+                  }
                 }
               }
             }
-          },
+          }, 
           "400": {
             "description": "Bad request"
           },
@@ -374,7 +407,9 @@
             "description": "Board not found"
           }
         }
-      },
+      }       
+    },
+    "/api/boards/update/{boardId}": {
       "patch": {
         "tags": ["Boards"],
         "summary": "Update one board",
@@ -419,7 +454,7 @@
           }
         }
       }
-    },
+    }, 
     "/api/columns/create/{boardId}": {
       "post": {
         "tags": ["Columns"],
@@ -776,7 +811,7 @@
         }
       }
     },
-    "/api/todos/{todoId}/changeOwner/{columnId}": {
+    "/api/todos/{todoId}/{columnId}/update": {
       "patch": {
         "tags": ["Todos"],
         "summary": "Change todo owner",
@@ -824,7 +859,7 @@
         }
       }
     },
-    "/api/emails/send": {
+    "/api/users/help": {
       "post": {
         "tags": ["Email"],
         "summary": "Send an email",
@@ -901,7 +936,7 @@
       "UpdateUserRequest": {
         "type": "object",
         "properties": {
-          "name": {
+        "name": {
             "type": "string",
             "description": "User's name",
             "example": "Updated Name"
@@ -920,13 +955,13 @@
           "avatarURL": {
             "type": "string",
             "description": "User's avatar URL",
-            "example": "https://example.com/avatar.jpg"
+            "example": "https://res.cloudinary.com/dtgxgkg61/image/upload/v1718663990/hmo4jaowcebmdz430cwk.jpg"
           },
           "theme": {
             "type": "string",
             "description": "User's theme",
             "enum": ["violet", "light", "dark"]
-          }
+          } 
         }
       },
       "CreateBoardRequest": {
@@ -941,12 +976,12 @@
           "icon": {
             "type": "string",
             "description": "Board's icon",
-            "example": "🏠"
+            "example": "icon-puzzle-piece-02"
           },
           "background": {
             "type": "string",
             "description": "Board's background",
-            "example": "#ffffff"
+            "example": "14"
           }
         }
       },
@@ -961,12 +996,12 @@
           "icon": {
             "type": "string",
             "description": "Board's icon",
-            "example": "🏠"
+            "example": "icon-puzzle-piece-02"
           },
           "background": {
             "type": "string",
             "description": "Board's background",
-            "example": "#000000"
+            "example": "14"
           }
         }
       },
@@ -1008,6 +1043,7 @@
           "priority": {
             "type": "string",
             "description": "Todo's priority",
+            "enum": ["Without priority", "Low", "Medium", "High"],
             "example": "High"
           },
           "deadline": {
@@ -1046,64 +1082,19 @@
         "type": "object",
         "required": ["to", "subject", "body"],
         "properties": {
-          "to": {
-            "type": "string",
-            "description": "Recipient email address",
-            "example": "recipient@example.com"
-          },
-          "subject": {
-            "type": "string",
-            "description": "Email subject",
-            "example": "Hello!"
-          },
-          "body": {
-            "type": "string",
-            "description": "Email body",
-            "example": "This is the body of the email."
-          }
-        }
-      },
-      "UserResponse": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "User ID",
-            "example": "60c72b2f9b1e8a6d4c7a9a1d"
-          },
-          "name": {
-            "type": "string",
-            "description": "User's name",
-            "example": "Alex"
-          },
-          "email": {
+          "email": {          
             "type": "string",
             "description": "User's email",
             "format": "email",
-            "example": "alex@example.com"
+            "example": "recipient@example.com"
           },
-          "avatarURL": {
+          "comment": {
             "type": "string",
-            "description": "User's avatar URL",
-            "example": "https://example.com/avatar.jpg"
-          },
-          "theme": {
-            "type": "string",
-            "description": "User's theme",
-            "enum": ["violet", "light", "dark"]
-          },
-          "accessToken": {
-            "type": "string",
-            "description": "Access token",
-            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-          },
-          "refreshToken": {
-            "type": "string",
-            "description": "Refresh token",
-            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-          }
+            "description": "Email subject",
+            "example": "Hello my litlle darling!"
+          }     
         }
-      },
+      },      
       "BoardResponse": {
         "type": "object",
         "properties": {
@@ -1120,12 +1111,12 @@
           "icon": {
             "type": "string",
             "description": "Board's icon",
-            "example": "🏠"
+            "example": "icon-puzzle-piece-02"
           },
           "background": {
             "type": "string",
             "description": "Board's background",
-            "example": "#ffffff"
+            "example": "14"
           },
           "ownerUser": {
             "type": "string",

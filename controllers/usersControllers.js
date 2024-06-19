@@ -218,6 +218,7 @@ export const sendHelpRequest = async (req, res, next) => {
 
   try {
     const result = await sendEmail(emailData);
+    console.log(result);
     if (!result) {
       throw new HttpError(500, "Error sending email");
     }
