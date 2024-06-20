@@ -276,4 +276,3 @@ export const getAllBackgrounds = async (req, res, next) => {
     next(error);
   }
 };
-
