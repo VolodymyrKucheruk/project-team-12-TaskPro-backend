@@ -15,6 +15,12 @@ const storage = new CloudinaryStorage({
     let folder;
     if (file.fieldname === "avatar") {
       folder = "avatars";
+    } else if (file.fieldname === "mobile") {
+      folder = "mobile";
+    } else if (file.fieldname === "tablet") {
+      folder = "tablet";
+    } else if (file.fieldname === "desktop") {
+      folder = "desktop";
     } else if (file.fieldname === "documents") {
       folder = "documents";
     } else {
@@ -24,8 +30,11 @@ const storage = new CloudinaryStorage({
     return {
       folder: folder,
       allowed_formats: ["jpg", "png", "jpeg", "gif"],
-      public_id: `${userId}`,
-      transformation: [{ width: 350, height: 450 }],
+      public_id: `${path.basename(
+        file.originalname,
+        path.extname(file.originalname)
+      )}_${userId}`,
+      transformation: folder === "avatars" ? [{ width: 350, height: 450 }] : [],
     };
   },
 });

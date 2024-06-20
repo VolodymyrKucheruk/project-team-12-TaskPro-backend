@@ -18,6 +18,7 @@ import {
   refresh,
   googleAuth,
   sendHelpRequest,
+  getAllBackgrounds
 } from "../controllers/usersControllers.js";
 import passport from "../helpers/google-authenticate.js";
 
@@ -49,3 +50,4 @@ userRouter.post(
   validateBody(helpSchema),
   sendHelpRequest
 );
+userRouter.get("/backgrounds", getAllBackgrounds);

@@ -39,16 +39,19 @@ export const deleteColumn = async (req, res, next) => {
   const { columnId } = req.params;
 
   try {
-    const deletedColumn = await Column.findByIdAndDelete(columnId);
-    if (!deletedColumn) {
-      return next(HttpError(404, "Column not found"));
+    const column = await Column.findById(columnId);
+    if (!column) {
+      return next(HttpError(404, "Колонку не знайдено"));
     }
-    const todos = await Todo.find({ column: columnId });
+
+    const todos = await Todo.find({ ownerColumn: columnId });
 
     let deletedTodos = [];
     if (todos.length > 0) {
-      deletedTodos = await Todo.deleteMany({ column: columnId });
+      deletedTodos = await Todo.deleteMany({ ownerColumn: columnId });
     }
+
+    const deletedColumn = await Column.findByIdAndDelete(columnId);
 
     res.status(200).json({
       deletedColumn,
@@ -58,7 +61,6 @@ export const deleteColumn = async (req, res, next) => {
     next(error);
   }
 };
-
 
 export const updateColumn = async (req, res, next) => {
   const { columnId } = req.params;

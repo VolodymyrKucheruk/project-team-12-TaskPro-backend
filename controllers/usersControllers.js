@@ -244,3 +244,36 @@ export const googleAuth = async (req, res) => {
     `${FRONTEND_URL}?accessToken=${accessToken}&refreshToken=${refreshToken}`
   );
 };
+
+export const getAllBackgrounds = async (req, res, next) => {
+  try {
+    const folders = ["mobile", "tablet", "desktop"];
+    const backgrounds = {};
+
+    for (const folder of folders) {
+      const resources = await cloudinary.api.resources({
+        type: "upload",
+        prefix: folder,
+        max_results: 100,
+      });
+
+      backgrounds[folder] = {
+        regular: [],
+        retina: [],
+      };
+
+      resources.resources.forEach((resource) => {
+        if (resource.public_id.includes("__2x")) {
+          backgrounds[folder].retina.push(resource.secure_url);
+        } else {
+          backgrounds[folder].regular.push(resource.secure_url);
+        }
+      });
+    }
+
+    res.status(200).json(backgrounds);
+  } catch (error) {
+    next(error);
+  }
+};
+
