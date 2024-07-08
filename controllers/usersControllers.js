@@ -234,15 +234,17 @@ export const googleAuth = async (req, res) => {
     id,
   };
 
-  const accessToken = jwt.sign(payload, ACCESS_SECRET_KEY, { expiresIn: "7d" });
-  const refreshToken = jwt.sign(payload, REFRESH_SECRET_KEY, {
+  const accessToken = jwt.sign(payload, process.env.ACCESS_SECRET_KEY, {
+    expiresIn: "7d",
+  });
+  const refreshToken = jwt.sign(payload, process.env.REFRESH_SECRET_KEY, {
     expiresIn: "10d",
   });
   await User.findByIdAndUpdate(id, { accessToken, refreshToken });
 
-  res.redirect(
-    `${FRONTEND_URL}?accessToken=${accessToken}&refreshToken=${refreshToken}`
-  );
+  const redirectUrl = `${process.env.FRONTEND_URL}?accessToken=${accessToken}&refreshToken=${refreshToken}`;
+  console.log("Redirect URL:", redirectUrl); 
+  res.redirect(redirectUrl);
 };
 
 export const getAllBackgrounds = async (req, res, next) => {

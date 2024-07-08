@@ -28,7 +28,11 @@ const todoSchema = new mongoose.Schema(
       },
       match: dateRegex,
     },
-
+    position: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
     ownerColumn: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "column",

@@ -4,7 +4,8 @@ import {
   deleteTodo,
   getOneTodo,
   updateTodo,
-  changeColumn
+  changeColumn,
+  updateTodoOrder
 } from "../controllers/todoControllers.js";
 
 import { createTodoSchema, updateTodoSchema } from "../schemas/todoSchema.js";
@@ -41,6 +42,12 @@ todoRouter.patch(
   isValidId("todoId"),
   isValidId("columnId"),
   changeColumn
+);
+todoRouter.patch(
+  "/update-order/:columnId",
+  authenticate,
+  isValidId("columnId"),
+  updateTodoOrder
 );
 
 export default todoRouter;
